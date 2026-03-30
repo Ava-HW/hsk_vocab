@@ -1,0 +1,16 @@
+.navbar{
+    background-color: #24866c;
+}
+
+.navbar .navbar-brand{
+    color:antiquewhite;
+}
+
+.navbar-link{
+    text-color: 
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: white !important;
+}
