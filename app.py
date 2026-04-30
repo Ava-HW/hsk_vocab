@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask import request
 
 app = Flask(__name__)
 
@@ -8,10 +9,12 @@ app = Flask(__name__)
 def hello_world():
     return render_template("index.html")
 
-@app.route("/sign_in")
+@app.route("/sign_in", methods = ["POST", "GET"])
 def sign_in():
+    if request.method == "POST":
+        return hello_world()
     return render_template("sign_in.html")
 
-@app.route("/sign_up")
+@app.route("/sign_up", methods = ["POST", "GET"])
 def sign_up():
     return render_template("sign_up.html")

@@ -14,3 +14,7 @@
 .navbar .nav-link {
     color: white !important;
 }
+
+.form-group{
+    width: 20%;
+}
