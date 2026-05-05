@@ -19,6 +19,11 @@ def sign_in():
 
 @app.route("/sign_up", methods = ["POST", "GET"])
 def sign_up():
+    if request.method == "POST":
+        email = request.form.get('email')
+        password = request.form.get('password')
+        name = request.form.get('name')
+        print(email, password, name)
     return render_template("sign_up.html")
 
 @app.route("/user_home", methods = ["POST", "GET"])
