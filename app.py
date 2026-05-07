@@ -42,18 +42,24 @@ def hello_world():
 @app.route("/sign_in", methods = ["POST", "GET"])
 def sign_in():
     if request.method == "POST":
-        username = request.form.get('username')
-        print(username)
+        email = request.form.get('email')
+        password = request.form.get('password')
+        # check if email and password match
         return redirect(url_for("user_home"))
     return render_template("sign_in.html")
 
 @app.route("/sign_up", methods = ["POST", "GET"])
 def sign_up():
+    db = get_db()
+    cur = db.cursor()
     if request.method == "POST":
         email = request.form.get('email')
         password = request.form.get('password')
         name = request.form.get('name')
-        print(email, password, name)
+        query = "INSERT INTO users (email, password, name) VALUES (?, ?, ?)"
+        data = (email, password, name)
+        cur.execute(query, data)   
+        db.commit()     
     return render_template("sign_up.html")
 
 @app.route("/user_home", methods = ["POST", "GET"])
