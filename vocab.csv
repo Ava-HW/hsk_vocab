@@ -1,0 +1,302 @@
+pinyin,hanzi,english,hsk_level
+wǒ,我,"I, me",1
+wǒmen,我们,"we, us (pl.)",1
+nǐ,你,you,1
+tā,他,"he, him",1
+tā,她,"she, her",1
+zhè (zhèr),这 (这儿),this (here),1
+nà (nàr),那 (那儿),that (there),1
+nǎ,哪,which,1
+nǎr,哪儿,where,1
+shéi,谁,who,1
+shénme,什么,"what, why",1
+duōshǎo,多少,"how many, how much",1
+jǐ,几,"a few, how many",1
+zěnme,怎么,how,1
+zěnmeyàng,怎么样,how about,1
+yī,一,one,1
+èr,二,two,1
+sān,三,three,1
+sì,四,four,1
+wǔ,五,five,1
+liù,六,six,1
+qī,七,seven,1
+bā,八,eight,1
+jiǔ,九,nine,1
+shí,十,ten,1
+gè,个,(for normal objects),1
+suì,岁,(for age),1
+běn,本,(for books),1
+xiē,些,some,1
+kuài,块,"piece, chunk",1
+bù,不,no,1
+méi,没,no,1
+hěn,很,"quite, very",1
+tài,太,too,1
+dōu,都,all,1
+yīdiǎnr,一点儿,a little bit,1
+hé,和,and,1
+zài,在,"in, at",1
+de,的,auxiliary particle,1
+le,了,completed action particle,1
+ma,吗,question particle,1
+ne,呢,question/continuation particle,1
+wèi,喂,hello,1
+jiā,家,home,1
+xuéxiào,学校,school,1
+fàndiàn,饭店,restaurant,1
+shāngdiàn,商店,store,1
+yīyuàn,医院,hospital,1
+Zhōngguó,中国,China,1
+Běijīng,北京,Beijing,1
+shàng,上,up,1
+xià,下,down,1
+qiánmiàn,前面,front,1
+hòumiàn,后面,behind,1
+lǐmiàn,里,inside,1
+jīntiān,今天,today,1
+míngtiān,明天,tomorrow,1
+zuótiān,昨天,yesterday,1
+shàngwǔ,上午,morning,1
+zhōngwǔ,中午,noon,1
+xiàwǔ,下午,afternoon,1
+nián,年,year,1
+yuè,月,month,1
+hào,号,number/date,1
+xīngqī,星期,week,1
+diǎn,点,o'clock,1
+fēnzhōng,分钟,minute,1
+xiànzài,现在,now,1
+shíhou,时候,time,1
+bàba,爸爸,father,1
+māma,妈妈,mother,1
+érzi,儿子,son,1
+nǚér,女儿,daughter,1
+lǎoshī,老师,teacher,1
+xuéshēng,学生,student,1
+tóngxué,同学,classmate,1
+péngyǒu,朋友,friend,1
+yīshēng,医生,doctor,1
+xiānsheng,先生,sir,1
+xiǎojiě,小姐,Miss,1
+yīfu,衣服,cloth,1
+shuǐ,水,water,1
+cài,菜,dish,1
+mǐfàn,米饭,rice,1
+shuǐguǒ,水果,fruit,1
+píngguǒ,苹果,apple,1
+chá,茶,tea,1
+bēizi,杯子,cup,1
+qián,钱,money,1
+fēijī,飞机,airplane,1
+chūzūchē,出租车,taxi,1
+diànshì,电视,television,1
+diànnǎo,电脑,computer,1
+diànyǐng,电影,movie,1
+tiānqì,天气,weather,1
+māo,猫,cat,1
+gǒu,狗,dog,1
+dōngxi,东西,thing,1
+rén,人,person,1
+míngzi,名字,name,1
+shū,书,book,1
+hànyǔ,汉语,mandarin Chinese,1
+zì,字,character,1
+zhuōzi,桌子,desk,1
+yǐzi,椅子,chair,1
+xièxie,谢谢,thank,1
+búkèqì,不客气,you are welcome,1
+zàijiàn,再见,good-bye,1
+qǐng,请,please,1
+duìbùqǐ,对不起,sorry,1
+méiguānxì,没关系,It doesn't matter,1
+shì,是,"be (am, is, are)",1
+yǒu,有,have,1
+kàn,看,look,1
+tīng,听,listen,1
+shuō,说,speak,1
+dú,读,read,1
+xiě,写,write,1
+kànjiàn,看见,see,1
+jiào,叫,call,1
+lái,来,come,1
+huí,回,return,1
+qù,去,go,1
+chī,吃,eat,1
+hē,喝,drink,1
+shuìjiào,睡觉,sleep,1
+dǎdiànhuà,打电话,make phone call,1
+zuò,做,do,1
+mǎi,买,buy,1
+kāi,开,open,1
+zuò,坐,sit,1
+zhù,住,live,1
+xuéxí,学习,study,1
+gōngzuò,工作,work,1
+xiàyǔ,下雨,rain,1
+ài,爱,love,1
+xǐhuān,喜欢,"love, like",1
+xiǎng,想,want,1
+rènshi,认识,know,1
+huì,会,can,1
+néng,能,"can, be able to",1
+hǎo,好,good,1
+dà,大,big,1
+xiǎo,小,small,1
+duō,多,"many, much",1
+shǎo,少,"few, little",1
+lěng,冷,cold,1
+rè,热,hot,1
+gāoxìng,高兴,happy,1
+piàoliang,漂亮,beautiful,1
+nín,您,you,2
+tā,它,it,2
+dàjiā,大家,everyone,2
+měi,每,"every, each",2
+wèishénme,为什么,why,2
+líng,零,zero,2
+liǎng,两,two,2
+bǎi,百,hundred,2
+qiān,千,thousand,2
+dìyī,第一,first,2
+cì,次,times,2
+jiàn,件,piece,2
+bié,别,do not,2
+fēicháng,非常,very,2
+yě,也,also,2
+hái,还,still,2
+zuì,最,the most,2
+zhēn,真,really,2
+zhèngzài,正在,be being,2
+yǐjīng,已经,already,2
+yìqǐ,一起,together,2
+zài,再,again,2
+jiù,就,at once,2
+yīnwèi...suǒyǐ…,因为……所以……,"because…so…",2
+suīrán…dànshì…,虽然……但是……,"although… but…",2
+cóng,从,from,2
+bǐ,比,comparing to,2
+wǎng,往,"toward, to",2
+lí,离,indicate the distance between two objects,2
+de,得,de,2
+zhe,着,zhe,2
+guò,过,guo,2
+ba,吧,ba,2
+jīchǎng,机场,airport,2
+jiàoshì,教室,classroom,2
+fángjiān,房间,room,2
+lù,路,road,2
+zuǒbiān,左边,left,2
+yòubiān,右边,right,2
+wài,外,outside,2
+pángbiān,旁边,side,2
+yīxià,一下,in a short while,2
+zǎoshàng,早上,morning,2
+wǎnshàng,晚上,night,2
+xiǎoshí,小时,hour,2
+shíjiān,时间,time,2
+qùnián,去年,last year,2
+rì,日,date,2
+shēngrì,生日,birthday,2
+gēge,哥哥,older brother,2
+jiějie,姐姐,older sister,2
+dìdi,弟弟,younger brother,2
+mèimei,妹妹,younger sister,2
+zhàngfu,丈夫,husband,2
+qīzi,妻子,wife,2
+háizi,孩子,child,2
+nánrén,男人,man,2
+nǚrén,女人,woman,2
+fúwùyuán,服务员,waiter,2
+yú,鱼,fish,2
+yángròu,羊肉,mutton,2
+niúnǎi,牛奶,milk,2
+jīdàn,鸡蛋,egg,2
+xīguā,西瓜,watermelon,2
+kāfēi,咖啡,coffee,2
+xuě,雪,snow,2
+yào,药,medicine,2
+shǒujī,手机,cellphone,2
+shǒubiǎo,手表,watch,2
+yǎnjīng,眼睛,eye,2
+shēntǐ,身体,body,2
+gōnggòngqìchē,公共汽车,bus,2
+bàozhǐ,报纸,newspaper,2
+mén,门,door,2
+tí,题,"topic, item",2
+kè,课,lesson,2
+xìng,姓,surname,2
+wèntí,问题,question,2
+shìqing,事情,matter,2
+kǎoshì,考试,exam,2
+piào,票,ticket,2
+yìsi,意思,meaning,2
+yánsè,颜色,color,2
+qiánbǐ,铅笔,pencil,2
+miàntiáo,面条,noodle,2
+huǒchēzhàn,火车站,train station,2
+gōngsī,公司,company,2
+bīngguǎn,宾馆,hotel,2
+shuōhuà,说话,talk,2
+mài,卖,sell,2
+wèn,问,ask,2
+zǒu,走,walk,2
+jìn,进,enter,2
+chū,出,come,2
+pǎobù,跑步,run,2
+dào,到,arrive,2
+chuān,穿,wear,2
+xǐ,洗,wash,2
+gěi,给,give,2
+zhǎo,找,find,2
+dǒng,懂,understand,2
+xiào,笑,smile,2
+gàosù,告诉,tell,2
+zhǔnbèi,准备,prepare,2
+kāishǐ,开始,begin,2
+jièshào,介绍,introduce,2
+bāngzhù,帮助,help,2
+wán,玩,play,2
+sòng,送,present,2
+děng,等,wait,2
+ràng,让,let,2
+qǐchuáng,起床,get up,2
+chànggē,唱歌,sing,2
+tiàowǔ,跳舞,dance,2
+lǚyóu,旅游,travel,2
+shàngbān,上班,be on duty,2
+shēngbìng,生病,"get ill, get sick",2
+xiūxi,休息,rest,2
+yùndòng,运动,exercise,2
+yóuyǒng,游泳,swim,2
+tīzúqiú,踢足球,play football,2
+dǎlánqiú,打篮球,play basketball,2
+wán,完,finish,2
+juédé,觉得,think,2
+zhīdao,知道,know,2
+xīwàng,希望,hope,2
+kěyǐ,可以,can,2
+yào,要,want,2
+kěnéng,可能,may,2
+gāo,高,tall,2
+hóng,红,red,2
+bái,白,white,2
+hēi,黑,black,2
+máng,忙,busy,2
+kuài,快,fast,2
+màn,慢,slow,2
+yuǎn,远,far,2
+jìn,近,close,2
+hǎochī,好吃,delicious,2
+lèi,累,tired,2
+cháng,长,long,2
+xīn,新,new,2
+guì,贵,expensive,2
+piányi,便宜,cheap,2
+qíng,晴,fine,2
+yīn,阴,cloudy,2
+cuò,错,wrong,2
+kuàilè,快乐,happy,2
+duì,对,to,2
+duì,对,right,2
+
