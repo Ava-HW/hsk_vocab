@@ -3,6 +3,7 @@ from flask import request, redirect, url_for
 from functools import wraps
 from flask import g, redirect
 import sqlite3
+import csv
 
 app = Flask(__name__)
 
@@ -34,9 +35,6 @@ def close_connection(exception):
 def hello_world():
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM words;")
-    thing = cur.fetchall()
-    print(thing)
     return render_template("index.html")
 
 @app.route("/sign_in", methods = ["POST", "GET"])
@@ -64,4 +62,8 @@ def sign_up():
 
 @app.route("/user_home", methods = ["POST", "GET"])
 def user_home():
-    return render_template("user_home.html")
+    db = get_db()
+    cur = db.cursor()
+    cur.execute("SELECT * FROM words;")
+    words = cur.fetchall()
+    return render_template("user_home.html", words = words)
