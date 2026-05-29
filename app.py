@@ -3,7 +3,6 @@ from flask import request, redirect, url_for
 from functools import wraps
 from flask import g, redirect
 import sqlite3
-import csv
 
 app = Flask(__name__)
 
@@ -86,4 +85,7 @@ def user_home():
     # get list of words to display
     cur.execute("SELECT * FROM words;")
     words = cur.fetchall()
-    return render_template("user_home.html", words = words)
+    id = session['user_id']
+    cur.execute("SELECT name FROM users WHERE email = ?", (id,))
+    name = cur.fetchone()['name']
+    return render_template("user_home.html", words = words, name = name)
