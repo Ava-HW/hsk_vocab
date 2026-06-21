@@ -33,6 +33,12 @@ def get_db():
     db.row_factory = make_dicts
     return db
 
+progress_description = {
+    1: "Not Learned Yet",
+    2: "Learning",
+    3: "Learned"
+}
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -59,7 +65,9 @@ def sign_in():
         result = cur.fetchone()
         if result:
             if(result['password'] == password):
-                session['user_id'] = email
+                # get user id number
+                cur.execute("SELECT user_id FROM users WHERE email = ?;", (email,))
+                session['user_id'] = cur.fetchone()['user_id']
                 return redirect(url_for("user_home"))
     return render_template("sign_in.html")
 
@@ -86,6 +94,14 @@ def user_home():
     cur.execute("SELECT * FROM words;")
     words = cur.fetchall()
     id = session['user_id']
-    cur.execute("SELECT name FROM users WHERE email = ?", (id,))
+    cur.execute("SELECT name FROM users WHERE user_id = ?", (id,))
     name = cur.fetchone()['name']
-    return render_template("user_home.html", words = words, name = name)
+    # get list of word_id, progress level
+    cur.execute("SELECT word_id, progress_level FROM users_words_progress WHERE user_id = ?;", (id,))
+    words_progress = cur.fetchall()
+    print(words_progress)
+    progress_message = {}
+    for i in words_progress:
+        progress_message[i['word_id']]=  progress_description[i['progress_level']]
+    print(progress_message)
+    return render_template("user_home.html", progress_message=progress_message, words = words, name = name)

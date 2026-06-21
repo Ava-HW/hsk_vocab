@@ -2,10 +2,45 @@
 
 {% block main %}
 
-<p>Welcome {{name}}</p>
+<div class = "justify-content-center centered align-items-center jumbotron">
+    <h1>Welcome {{ name }} </h1>
+</div>
 
-{% for i in words %}
-    <li> {{ i }} </li>
-{% endfor %}
+<div class = "d-flex flex-column justify-content-center align-items-center container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Hanzi</th>
+        <th scope="col">Pinyin</th>
+        <th scope="col">English</th>
+        <th scope="col">HSK Level</th>
+        <th scope="col">Progress</th>
+      </tr>
+    </thead>
+      <tbody>
+      {% for i in words %}
+      <tr>
+      <td> {{ i['hanzi'] }} </td>
+      <td> {{ i['pinyin'] }} </td>
+      <td> {{ i['english'] }} </td>
+      <td> {{ i['hsk_level'] }} </td>
+      <!-- <td> {{ i['word_id']}}></td> is word id number-->
+      <td>
+          <div class="dropdown">
+          <button class="btn-progress btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">            
+              <a class="dropdown-item" href="#">{{ progress_message[i['word_id']] }}</a>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Not learned yet</a>
+              <a class="dropdown-item" href="#">Learning</a>
+              <a class="dropdown-item" href="#">Learned</a>
+          </div>
+          </div>
+      </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 {% endblock %}
