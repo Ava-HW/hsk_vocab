@@ -27,13 +27,13 @@
       <!-- <td> {{ i['word_id']}}></td> is word id number-->
       <td>
           <div class="dropdown">
-          <button class="btn-progress btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">            
-              <a class="dropdown-item" href="#">{{ progress_message[i['word_id']] }}</a>
+          <button class="btn-progress btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">   
+              {{ progress_message[i['word_id']] or "Not learned" }}
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Not learned yet</a>
-              <a class="dropdown-item" href="#">Learning</a>
-              <a class="dropdown-item" href="#">Learned</a>
+              <a class="dropdown-item status-link" href="#">Not learned</a>
+              <a class="dropdown-item status-link" href="#">Learning</a>
+              <a class="dropdown-item status-link" href="#">Learned</a>
           </div>
           </div>
       </td>
@@ -42,5 +42,23 @@
     </tbody>
   </table>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusLinks = document.querySelectorAll('.status-link');
+
+    statusLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault(); 
+
+            const selectedStatus = this.textContent;
+
+            const dropdownButton = this.closest('.dropdown').querySelector('.btn-progress');
+
+            dropdownButton.textContent = selectedStatus;
+        });
+    });
+});
+</script>
 
 {% endblock %}
