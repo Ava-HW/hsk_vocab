@@ -50,6 +50,7 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
+
  
 @app.route("/")
 def index():
@@ -57,6 +58,11 @@ def index():
     cur = db.cursor()
     session.clear()
     return render_template("index.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 @app.route("/sign_in", methods = ["POST", "GET"])
 def sign_in():
@@ -103,10 +109,20 @@ def update_progress():
     cur = db.cursor()
     user_id = session['user_id']
     cur = db.cursor()
-    query = "UPDATE users_words_progress SET progress_level = ? WHERE user_id = ? AND word_id = ?"
-    placeholders = (description_progress[status], user_id, word_id)
-    print("changing", word_id, "to", status)
-    cur.execute(query, placeholders)
+    # check if word is already in database
+    query = "SELECT * FROM users_words_progress WHERE user_id = ? AND word_id = ?;"
+    data = (user_id, word_id)
+    cur.execute(query, data)
+    word_entry = cur.fetchone()
+    if word_entry:
+        query = "UPDATE users_words_progress SET progress_level = ? WHERE user_id = ? AND word_id = ?"
+        placeholders = (description_progress[status], user_id, word_id)
+        print("changing", word_id, "to", status)
+        cur.execute(query, placeholders)
+    else:
+        query = "INSERT INTO users_words_progress (user_id, word_id, progress_level) VALUES (?, ?, ?);"
+        data = (user_id, word_id, description_progress[status])
+        cur.execute(query, data)
     db.commit()
     return jsonify({'success': True})
 
