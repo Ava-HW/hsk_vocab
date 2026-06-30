@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, jsonify
 from flask import request, redirect, url_for
 from functools import wraps
 from flask import g, redirect
@@ -34,9 +34,15 @@ def get_db():
     return db
 
 progress_description = {
-    1: "Not Learned Yet",
+    1: "Not Learned",
     2: "Learning",
     3: "Learned"
+}
+
+description_progress = {
+    "Not learned" : 1,
+    "Learning" : 2, 
+    "Learned" : 3
 }
 
 @app.teardown_appcontext
@@ -46,9 +52,10 @@ def close_connection(exception):
         db.close()
  
 @app.route("/")
-def hello_world():
+def index():
     db = get_db()
     cur = db.cursor()
+    session.clear()
     return render_template("index.html")
 
 @app.route("/sign_in", methods = ["POST", "GET"])
@@ -84,6 +91,26 @@ def sign_up():
         cur.execute(query, data)   
         db.commit()     
     return render_template("sign_up.html")
+
+@app.route("/update_progress", methods=['POST'])
+def update_progress():
+    data = request.get_json()
+    word_id = data.get('word_id')
+    status = data.get('status')
+    print("word id is ", word_id, "status is", status)
+    # update status in database
+    db = get_db()
+    cur = db.cursor()
+    user_id = session['user_id']
+    cur = db.cursor()
+    query = "UPDATE users_words_progress SET progress_level = ? WHERE user_id = ? AND word_id = ?"
+    placeholders = (description_progress[status], user_id, word_id)
+    print("changing", word_id, "to", status)
+    cur.execute(query, placeholders)
+    db.commit()
+    return jsonify({'success': True})
+
+
 
 @app.route("/user_home", methods = ["POST", "GET"])
 @login_required

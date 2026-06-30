@@ -31,9 +31,9 @@
               {{ progress_message[i['word_id']] or "Not learned" }}
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item status-link" href="#">Not learned</a>
-              <a class="dropdown-item status-link" href="#">Learning</a>
-              <a class="dropdown-item status-link" href="#">Learned</a>
+              <a class="dropdown-item status-link" data-word-id = "{{ i['word_id']}}" href="#">Not learned</a>
+              <a class="dropdown-item status-link" data-word-id = "{{ i['word_id']}}" href="#">Learning</a>
+              <a class="dropdown-item status-link" data-word-id = "{{ i['word_id']}}" href="#">Learned</a>
           </div>
           </div>
       </td>
@@ -51,11 +51,34 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', function(e) {
             e.preventDefault(); 
 
-            const selectedStatus = this.textContent;
-
+            const selectedStatus = this.textContent.trim();
+            const wordId = this.getAttribute('data-word-id'); 
             const dropdownButton = this.closest('.dropdown').querySelector('.btn-progress');
+            const originalStatus = dropdownButton.textContent.trim();
 
             dropdownButton.textContent = selectedStatus;
+
+            // Send request to flask server to update status
+            fetch('/update_progress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    word_id: wordId,
+                    status: selectedStatus
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    dropdownButton.textContent = originalStatus;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                dropdownButton.textContent = originalStatus;
+            });
         });
     });
 });
