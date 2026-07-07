@@ -27,7 +27,7 @@
       <!-- <td> {{ i['word_id']}}></td> is word id number-->
       <td>
           <div class="dropdown">
-          <button class="btn-progress btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">   
+          <button class="btn-progress btn btn-secondary dropdown-toggle progress-{{ ( progress_message[i['word_id']] or 'not_learned' ) | lower | replace(' ', '_') }}" type="button" data-bs-toggle="dropdown" aria-expanded="false">   
               {{ progress_message[i['word_id']] or "Not learned" }}
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -58,6 +58,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             dropdownButton.textContent = selectedStatus;
 
+            // change button color to new progress level
+            dropdownButton.classList.remove(
+                'progress-not_learned',
+                'progress-learned',
+                'progress-learning'
+            );
+
+            dropdownButton.classList.add(
+                'progress-' + selectedStatus.toLowerCase().replace(' ', '_')
+            );
+
             // Send request to flask server to update status
             fetch('/update_progress', {
                 method: 'POST',
@@ -71,9 +82,11 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
+                // if update request fails, then change button to original state
                 if (!data.success) {
                     dropdownButton.textContent = originalStatus;
-                }
+                    dropdownButton.classList.add('progress-' + originalStatus.toLowerCase().replace(" ", "_"))
+                };
             })
             .catch(error => {
                 console.error('Error:', error);

@@ -21,8 +21,12 @@
       <a class="navbar-brand" href="/">HSK Vocab</a>
       </button>
         <div class="navbar-nav">
+          {% if session.get('user_id') %}
+          <a class="nav-link" href="/logout">Log out</a>
+          {% else %}
           <a class="nav-link" href="/sign_in">Sign in</a>
           <a class="nav-link" href="/sign_up">Sign up</a>
+          {% endif %}
         </div>
       </div>
     </div>
