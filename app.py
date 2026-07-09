@@ -42,7 +42,10 @@ progress_description = {
 description_progress = {
     "Not learned" : 1,
     "Learning" : 2, 
-    "Learned" : 3
+    "Learned" : 3,
+    "not_learned" : 1,
+    "learning" : 2, 
+    "learned": 3
 }
 
 @app.teardown_appcontext
@@ -92,9 +95,21 @@ def sign_up():
         email = request.form.get('email')
         password = request.form.get('password')
         name = request.form.get('name')
-        query = "INSERT INTO users (email, password, name) VALUES (?, ?, ?)"
+        query = "INSERT INTO users (email, password, name) VALUES (?, ?, ?);"
         data = (email, password, name)
-        cur.execute(query, data)   
+        try:
+            cur.execute(query, data)   
+        except:
+            return render_template("sign_up.html")
+        # set all words to not learned initially
+        cur.execute("SELECT * FROM words;")
+        word_list = cur.fetchall()
+        cur.execute("SELECT user_id FROM users WHERE email = ?;", (email,))
+        id = cur.fetchone()
+        user_id = id['user_id']
+        for i in word_list:
+            data = (i['word_id'], user_id, 1)
+            cur.execute("INSERT INTO users_words_progress (word_id, user_id, progress_level) VALUES (?, ?, ?);", data)
         db.commit()     
     return render_template("sign_up.html")
 
@@ -126,6 +141,47 @@ def update_progress():
     db.commit()
     return jsonify({'success': True})
 
+@app.route("/start_quiz", methods = ["POST", "GET"])
+@login_required
+def start_quiz():
+    db = get_db()
+    cur = db.cursor()
+    if request.method == "POST":
+        num_questions = int(request.form.get('num_questions'))
+        progress_level = request.form.get('progress_level')
+        show_pinyin = request.form.get('show_pinyin')
+        # get suitable list of words
+        question_list = []
+        query = ""
+        if progress_level != "all_progress_levels":
+            progress_num = description_progress[progress_level]
+            query = """
+                SELECT words.* FROM words
+                INNER JOIN users_words_progress ON words.word_id = users_words_progress.word_id
+                WHERE users_words_progress.progress_level = ?
+                ORDER BY random()
+                LIMIT ?;
+            """ 
+            data = (progress_num, num_questions)
+        else:
+            query = """
+                SELECT * FROM words
+                ORDER BY random()
+                LIMIT ?;
+            """
+            data = (num_questions,)
+        cur.execute(query, data)
+        words_list = cur.fetchall()
+        for s in words_list:
+            print(s)
+        session['quiz_questions'] = words_list
+        return redirect(url_for('quiz'))
+    return render_template("start_quiz.html")
+
+@login_required
+@app.route("/quiz")
+def quiz():
+    return render_template("quiz.html")
 
 
 @app.route("/user_home", methods = ["POST", "GET"])

@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+
+<div class = "justify-content-center centered align-items-center ">
+<h1>Quiz</h1>
+{% for i in session['quiz_questions'] %}
+<p>{{ i }}</p>
+{% endfor %}
+</div>
+
+
+{% endblock %}

@@ -34,6 +34,12 @@
     margin: 10px auto 0;
 }
 
+.btn-quiz-start{
+    background-color: #F1EFE8;
+    width: 100%;
+    text-align: left;
+}
+
 .btn-progress {
     background-color: #24866c;
     border: 1px solid #24866c !important;
