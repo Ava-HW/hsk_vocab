@@ -96,3 +96,11 @@
 td, th {
   vertical-align: middle;
 }
+
+.correct-selection{
+    background-color: green;
+}
+
+.incorrect-selection{
+    background-color: red;
+}

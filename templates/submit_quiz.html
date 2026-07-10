@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+
+<div class = "justify-content-center centered align-items-center" style="margin-bottom: 10%;">
+<h1>Quiz results</h1>
+<h2>Score: {{ score }} / {{ submitted_answers|length}}</h2>
+<div class="form-group">
+{% for i in session['quiz_questions'] %}
+<div class="card">
+  <div class="card-body">
+    <!-- Show hanzi, pinyin if selected -->
+    <h5 class = "card-title">{{ i['hanzi']}}</h5>
+    {% if session['show_pinyin'] %}
+    <h6>{{i['pinyin']}}</h6>
+    {% endif %}
+    <!-- Show answer options -->
+     {% set ind = loop.index -1 %}
+     {% for j in i['options'] %}
+     {% if j == i['answer'] %}
+     <div class="form-check">
+        <input class="form-check-input correct-selection" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
+        <label class="form-check-label" for="flexRadioDefault1">
+            {{ j }}
+        </label>
+    </div>
+    {% elif j == submitted_answers[ind] and j != i['answer'] %}
+    <div class="form-check">
+        <input class="form-check-input incorrect-selection" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
+        <label class="form-check-label" for="flexRadioDefault1">
+            {{ j }}
+        </label>
+    </div>
+    {% else %}
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
+        <label class="form-check-label" for="flexRadioDefault1">
+            {{ j }} {{ submitted_answers[ind] }}
+        </label>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+<a class="btn btn-primary" href="/quiz">Try again</a>
+</div>
+
+
+{% endblock %}

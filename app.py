@@ -149,6 +149,10 @@ def start_quiz():
         num_questions = int(request.form.get('num_questions'))
         progress_level = request.form.get('progress_level')
         show_pinyin = request.form.get('show_pinyin')
+        if(show_pinyin):
+            session['show_pinyin'] = True
+        else:
+            session['show_pinyin'] = False
         # get suitable list of words
         question_list = []
         query = ""
@@ -211,13 +215,16 @@ def quiz():
 @login_required
 @app.route("/submit_quiz", methods=["GET", "POST"])
 def submit_quiz():
+    submitted_answers = []
+    score = 0
     if request.method == "POST":
         # get list of submitted answers
-        submitted_answers = []
         for i in session['quiz_questions']:
-            submitted_answers.append(request.form.get(i['pinyin']))
-        print(submitted_answers)
-    return redirect(url_for('quiz'))
+            response = request.form.get(i['pinyin'])
+            submitted_answers.append(response)
+            if response == i['answer']:
+                score += 1
+    return render_template("submit_quiz.html", score=score, submitted_answers=submitted_answers)
 
 
 @app.route("/user_home", methods = ["POST", "GET"])

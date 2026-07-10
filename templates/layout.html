@@ -18,7 +18,11 @@
 <body>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
+      {% if session.get('user_id') %}
+      <a class="navbar-brand" href="/user_home">HSK Vocab</a>
+      {% else %}
       <a class="navbar-brand" href="/">HSK Vocab</a>
+      {% endif %}
       </button>
         <div class="navbar-nav">
           {% if session.get('user_id') %}
