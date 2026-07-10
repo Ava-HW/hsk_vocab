@@ -3,6 +3,7 @@ from flask import request, redirect, url_for
 from functools import wraps
 from flask import g, redirect
 import sqlite3
+import random
 
 app = Flask(__name__)
 
@@ -118,7 +119,6 @@ def update_progress():
     data = request.get_json()
     word_id = data.get('word_id')
     status = data.get('status')
-    print("word id is ", word_id, "status is", status)
     # update status in database
     db = get_db()
     cur = db.cursor()
@@ -132,7 +132,6 @@ def update_progress():
     if word_entry:
         query = "UPDATE users_words_progress SET progress_level = ? WHERE user_id = ? AND word_id = ?"
         placeholders = (description_progress[status], user_id, word_id)
-        print("changing", word_id, "to", status)
         cur.execute(query, placeholders)
     else:
         query = "INSERT INTO users_words_progress (user_id, word_id, progress_level) VALUES (?, ?, ?);"
@@ -172,16 +171,53 @@ def start_quiz():
             data = (num_questions,)
         cur.execute(query, data)
         words_list = cur.fetchall()
-        for s in words_list:
-            print(s)
-        session['quiz_questions'] = words_list
+        quiz_questions = []
+        for i in words_list:
+            answer = i['english']
+            pinyin = i['pinyin']
+            hanzi = i['hanzi']
+            # pick 3 random other words to use as wrong answers
+            options = []
+            query = """
+                SELECT english 
+                FROM words
+                WHERE english != ?
+                ORDER BY random()
+                LIMIT 3;
+            """
+            cur.execute(query, (answer,))
+            temp = cur.fetchall()
+            for j in temp:
+                options.append(j['english'])
+            options.append(answer)
+            question = {}
+            question['answer'] = answer
+            question['hanzi'] = hanzi
+            question['pinyin'] = pinyin
+            random.shuffle(options)
+            question['options'] = options
+            print(question["options"])
+            quiz_questions.append(question)
+        session['quiz_questions'] = quiz_questions
+        print(quiz_questions)
         return redirect(url_for('quiz'))
     return render_template("start_quiz.html")
 
 @login_required
-@app.route("/quiz")
+@app.route("/quiz", methods=["GET", "POST"])
 def quiz():
     return render_template("quiz.html")
+
+@login_required
+@app.route("/submit_quiz", methods=["GET", "POST"])
+def submit_quiz():
+    if request.method == "POST":
+        # get list of submitted answers
+        submitted_answers = []
+        for i in session['quiz_questions']:
+            submitted_answers.append(request.form.get(i['pinyin']))
+        print(submitted_answers)
+    return redirect(url_for('quiz'))
 
 
 @app.route("/user_home", methods = ["POST", "GET"])
@@ -198,9 +234,7 @@ def user_home():
     # get list of word_id, progress level
     cur.execute("SELECT word_id, progress_level FROM users_words_progress WHERE user_id = ?;", (id,))
     words_progress = cur.fetchall()
-    print(words_progress)
     progress_message = {}
     for i in words_progress:
         progress_message[i['word_id']]=  progress_description[i['progress_level']]
-    print(progress_message)
     return render_template("user_home.html", progress_message=progress_message, words = words, name = name)

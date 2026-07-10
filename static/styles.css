@@ -79,6 +79,16 @@
     padding-top: 3%;
 }
 
+.card{
+    width: 100% !important;
+    max-width: 350px !important;
+    margin-bottom: 10%;
+}
+
+.card-body{
+    text-align: center !important;
+}
+
 .form-field{
     padding-bottom: 3%;
 }
