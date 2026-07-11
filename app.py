@@ -226,6 +226,10 @@ def submit_quiz():
                 score += 1
     return render_template("submit_quiz.html", score=score, submitted_answers=submitted_answers)
 
+@app.route("/progress")
+@login_required
+def progress():
+    return render_template("progress.html")
 
 @app.route("/user_home", methods = ["POST", "GET"])
 @login_required
