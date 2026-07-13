@@ -128,24 +128,61 @@ def update_progress():
     data = request.get_json()
     word_id = data.get('word_id')
     status = data.get('status')
+    print("changing", word_id, "to", status)
     # update status in database
     db = get_db()
     cur = db.cursor()
     user_id = session['user_id']
     cur = db.cursor()
+    old_status = 1
     # check if word is already in database
     query = "SELECT * FROM users_words_progress WHERE user_id = ? AND word_id = ?;"
     data = (user_id, word_id)
     cur.execute(query, data)
     word_entry = cur.fetchone()
     if word_entry:
+        old_status = word_entry['progress_level']
         query = "UPDATE users_words_progress SET progress_level = ? WHERE user_id = ? AND word_id = ?"
         placeholders = (description_progress[status], user_id, word_id)
         cur.execute(query, placeholders)
     else:
+        old_status = 1
         query = "INSERT INTO users_words_progress (user_id, word_id, progress_level) VALUES (?, ?, ?);"
         data = (user_id, word_id, description_progress[status])
         cur.execute(query, data)
+    # update word learning and progress tallies
+    query = "SELECT * FROM words WHERE word_id = ?;"
+    cur.execute(query, (word_id,))
+    word_details = cur.fetchone()
+    word_level = word_details['hsk_level']
+    print("word details are", word_details)
+    # remove one from old status tally
+    old_status = progress_description[old_status]
+    column = f"level_{word_level}_{old_status.lower().replace(" ", "_")}"
+    query = f"""
+    UPDATE users
+    SET {column} = {column} - 1
+    WHERE user_id = ?;
+    """
+    data = (session['user_id'],)
+    print("runnining", query)
+    try:
+        db.execute(query, data)
+    except:
+        pass
+    # add one to new status tally
+    column = f"level_{word_level}_{status.lower().replace(" ", "_")}"
+    query = f"""
+    UPDATE users
+    SET {column} = {column} + 1
+    WHERE user_id = ?;
+    """
+    data = (session['user_id'],)
+    print("running", query, data)
+    try:
+        db.execute(query, data)
+    except:
+        pass
     db.commit()
     return jsonify({'success': True})
 
@@ -239,10 +276,39 @@ def submit_quiz():
 def progress():
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM words;")
+    # find no. of total words
+    cur.execute("SELECT * FROM words WHERE hsk_level <= ?;", (session['hsk_level'],))
     words_list = cur.fetchall()
     total_words = len(words_list)
-    return render_template("progress.html", learned = 100, learning = 67, not_learned = 9, total_words=total_words)
+    # find no. of learned words
+    learned = 0
+    for i in range(1, session['hsk_level'] + 1):
+        query = f"""
+        SELECT level_{i}_learned 
+        FROM users
+        WHERE user_id = ?;
+        """
+        data = (session['user_id'],)
+        cur.execute(query, data)
+        amount = cur.fetchone()
+        if amount[f'level_{i}_learned']: 
+            learned += amount[f'level_{i}_learned']
+    # find no. of learning words
+    learning = 0
+    for i in range(1, session['hsk_level'] + 1):
+        query = f"""
+        SELECT level_{i}_learning 
+        FROM users
+        WHERE user_id = ?;
+        """
+        data = (session['user_id'],)
+        cur.execute(query, data)
+        amount = cur.fetchone()
+        if amount[f'level_{i}_learning']: 
+            learning += amount[f'level_{i}_learning']
+    # calculate no. of not learned words
+    not_learned = total_words - learning - learned
+    return render_template("progress.html", learned=learned, learning=learning, not_learned=not_learned, total_words=total_words)
 
 @app.route("/user_home", methods = ["POST", "GET"])
 @login_required
