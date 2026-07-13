@@ -17,9 +17,35 @@
       <label for="exampleInputPassword1">Name</label>
       <input name = "name" type="text" class="form-control" placeholder="Name">
     </div>
+    <div class="dropdown form-field">
+      <label>Select HSK level</label>
+        <input type="hidden" name="hsk_level" id="hsk_level" value="">
+          <button class="btn btn-sign-up dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">   
+              Select level...
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item">Level 1</a>
+              <a class="dropdown-item">Level 2</a>
+          </div>
+    </div> 
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
 
+<script>
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function() { 
+            // update text displayed on button
+            const dropdown = this.closest('.dropdown');
+            const button = dropdown.querySelector('.dropdown-toggle');
+            button.textContent = this.textContent;
+            // update hidden input field
+            const hiddenInput = dropdown.querySelector('input[type="hidden"]');
+            if (hiddenInput) {
+                hiddenInput.value = this.textContent.trim().toLowerCase().replaceAll(" ", "_");
+            }
+        });
+    });
+</script>
 
 {% endblock %}

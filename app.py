@@ -81,10 +81,14 @@ def sign_in():
         cur.execute(query, data)
         result = cur.fetchone()
         if result:
+            print(result)
             if(result['password'] == password):
                 # get user id number
-                cur.execute("SELECT user_id FROM users WHERE email = ?;", (email,))
-                session['user_id'] = cur.fetchone()['user_id']
+                cur.execute("SELECT user_id, hsk_level FROM users WHERE email = ?;", (email,))
+                details = cur.fetchone()
+                session['user_id'] = details['user_id']
+                session['hsk_level'] = details['hsk_level']
+                print(details)
                 return redirect(url_for("user_home"))
     return render_template("sign_in.html")
 
@@ -96,8 +100,13 @@ def sign_up():
         email = request.form.get('email')
         password = request.form.get('password')
         name = request.form.get('name')
-        query = "INSERT INTO users (email, password, name) VALUES (?, ?, ?);"
-        data = (email, password, name)
+        hsk_level = request.form.get('hsk_level')
+        query = "INSERT INTO users (email, password, name, hsk_level) VALUES (?, ?, ?, ?);"
+        if hsk_level:
+            hsk_level = int(hsk_level)
+        else:
+            return render_template("sign_up.html")
+        data = (email, password, name, hsk_level)
         try:
             cur.execute(query, data)   
         except:
@@ -162,10 +171,11 @@ def start_quiz():
                 SELECT words.* FROM words
                 INNER JOIN users_words_progress ON words.word_id = users_words_progress.word_id
                 WHERE users_words_progress.progress_level = ?
+                AND words.hsk_level <= ?
                 ORDER BY random()
                 LIMIT ?;
             """ 
-            data = (progress_num, num_questions)
+            data = (progress_num, session['hsk_level'], num_questions)
         else:
             query = """
                 SELECT * FROM words
@@ -200,10 +210,8 @@ def start_quiz():
             question['pinyin'] = pinyin
             random.shuffle(options)
             question['options'] = options
-            print(question["options"])
             quiz_questions.append(question)
         session['quiz_questions'] = quiz_questions
-        print(quiz_questions)
         return redirect(url_for('quiz'))
     return render_template("start_quiz.html")
 
@@ -243,12 +251,17 @@ def user_home():
     cur = db.cursor()
     # get list of words to display
     cur.execute("SELECT * FROM words;")
-    words = cur.fetchall()
+    words = []
+    temp = cur.fetchall()
+    for i in temp:
+        if i['hsk_level'] <= session['hsk_level']:
+            words.append(i)
     id = session['user_id']
     cur.execute("SELECT name FROM users WHERE user_id = ?", (id,))
     name = cur.fetchone()['name']
     # get list of word_id, progress level
-    cur.execute("SELECT word_id, progress_level FROM users_words_progress WHERE user_id = ?;", (id,))
+    data = (id,)
+    cur.execute("SELECT word_id, progress_level FROM users_words_progress WHERE user_id = ?;", data)
     words_progress = cur.fetchall()
     progress_message = {}
     for i in words_progress:

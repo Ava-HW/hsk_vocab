@@ -40,6 +40,13 @@
     text-align: left;
 }
 
+.btn-sign-up{
+    background-color: #FFFFFF;
+    border-color: #DEE2E6 !important;
+    width: 100%;
+    text-align: left;
+}
+
 .btn-progress {
     background-color: #24866c;
     border: 1px solid #24866c !important;
