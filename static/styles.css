@@ -79,10 +79,14 @@
     padding-top: 3%;
 }
 
-.card{
+.quiz-card{
     width: 100% !important;
     max-width: 350px !important;
     margin-bottom: 10%;
+}
+
+.progress-cards{
+    margin: 2%;
 }
 
 .card-body{
@@ -103,4 +107,12 @@ td, th {
 
 .incorrect-selection{
     background-color: red;
+}
+
+.progress-bar{
+    background-color: #24866c;
+}
+
+.progress-bar-learning{
+    background-color: #de831c;
 }

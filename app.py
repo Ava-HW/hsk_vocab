@@ -229,7 +229,12 @@ def submit_quiz():
 @app.route("/progress")
 @login_required
 def progress():
-    return render_template("progress.html")
+    db = get_db()
+    cur = db.cursor()
+    cur.execute("SELECT * FROM words;")
+    words_list = cur.fetchall()
+    total_words = len(words_list)
+    return render_template("progress.html", learned = 100, learning = 67, not_learned = 9, total_words=total_words)
 
 @app.route("/user_home", methods = ["POST", "GET"])
 @login_required
