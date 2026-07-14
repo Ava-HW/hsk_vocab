@@ -100,7 +100,7 @@ def sign_up():
         email = request.form.get('email')
         password = request.form.get('password')
         name = request.form.get('name')
-        hsk_level = request.form.get('hsk_level')
+        hsk_level = request.form.get('hsk_level').replace("level_", "")
         query = "INSERT INTO users (email, password, name, hsk_level) VALUES (?, ?, ?, ?);"
         if hsk_level:
             hsk_level = int(hsk_level)

@@ -18,14 +18,14 @@
      {% set ind = loop.index -1 %}
      {% for j in i['options'] %}
      {% if j == i['answer'] %}
-     <div class="form-check">
+     <div class="form-check bg-success-subtle">
         <input class="form-check-input correct-selection" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
         <label class="form-check-label" for="flexRadioDefault1">
             {{ j }}
         </label>
     </div>
     {% elif j == submitted_answers[ind] and j != i['answer'] %}
-    <div class="form-check">
+    <div class="form-check bg-danger-subtle">
         <input class="form-check-input incorrect-selection" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
         <label class="form-check-label" for="flexRadioDefault1">
             {{ j }}
@@ -35,7 +35,7 @@
     <div class="form-check">
         <input class="form-check-input" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
         <label class="form-check-label" for="flexRadioDefault1">
-            {{ j }} {{ submitted_answers[ind] }}
+            {{ j }}
         </label>
     </div>
     {% endif %}
