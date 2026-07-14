@@ -81,14 +81,12 @@ def sign_in():
         cur.execute(query, data)
         result = cur.fetchone()
         if result:
-            print(result)
             if(result['password'] == password):
                 # get user id number
                 cur.execute("SELECT user_id, hsk_level FROM users WHERE email = ?;", (email,))
                 details = cur.fetchone()
                 session['user_id'] = details['user_id']
                 session['hsk_level'] = details['hsk_level']
-                print(details)
                 return redirect(url_for("user_home"))
     return render_template("sign_in.html")
 
@@ -128,7 +126,6 @@ def update_progress():
     data = request.get_json()
     word_id = data.get('word_id')
     status = data.get('status')
-    print("changing", word_id, "to", status)
     # update status in database
     db = get_db()
     cur = db.cursor()
@@ -155,7 +152,6 @@ def update_progress():
     cur.execute(query, (word_id,))
     word_details = cur.fetchone()
     word_level = word_details['hsk_level']
-    print("word details are", word_details)
     # remove one from old status tally
     old_status = progress_description[old_status]
     column = f"level_{word_level}_{old_status.lower().replace(" ", "_")}"
@@ -165,7 +161,6 @@ def update_progress():
     WHERE user_id = ?;
     """
     data = (session['user_id'],)
-    print("runnining", query)
     try:
         db.execute(query, data)
     except:
@@ -178,7 +173,6 @@ def update_progress():
     WHERE user_id = ?;
     """
     data = (session['user_id'],)
-    print("running", query, data)
     try:
         db.execute(query, data)
     except:
@@ -205,7 +199,7 @@ def start_quiz():
         if progress_level != "all_progress_levels":
             progress_num = description_progress[progress_level]
             query = """
-                SELECT words.* FROM words
+                SELECT DISTINCT words.* FROM words
                 INNER JOIN users_words_progress ON words.word_id = users_words_progress.word_id
                 WHERE users_words_progress.progress_level = ?
                 AND words.hsk_level <= ?
@@ -215,7 +209,7 @@ def start_quiz():
             data = (progress_num, session['hsk_level'], num_questions)
         else:
             query = """
-                SELECT * FROM words
+                SELECT DISTINCT * FROM words
                 ORDER BY random()
                 LIMIT ?;
             """
@@ -227,6 +221,7 @@ def start_quiz():
             answer = i['english']
             pinyin = i['pinyin']
             hanzi = i['hanzi']
+            answer_id = i['word_id']
             # pick 3 random other words to use as wrong answers
             options = []
             query = """
@@ -245,6 +240,7 @@ def start_quiz():
             question['answer'] = answer
             question['hanzi'] = hanzi
             question['pinyin'] = pinyin
+            question['answer_id'] = str(answer_id)
             random.shuffle(options)
             question['options'] = options
             quiz_questions.append(question)
@@ -265,7 +261,7 @@ def submit_quiz():
     if request.method == "POST":
         # get list of submitted answers
         for i in session['quiz_questions']:
-            response = request.form.get(i['pinyin'])
+            response = request.form.get(i['answer_id'])
             submitted_answers.append(response)
             if response == i['answer']:
                 score += 1

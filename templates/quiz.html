@@ -16,8 +16,8 @@
     <!-- Show answer options -->
      {% for j in i['options'] %}
      <div class="form-check">
-        <input class="form-check-input" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
-        <label class="form-check-label" for="{{ i['pinyin'] }}_{{ loop.index }}">
+        <input class="form-check-input" type="radio" name="{{ i['answer_id']}}" id="{{ i['answer_id'] }}_{{ loop.index }}" value="{{ j }}">
+        <label class="form-check-label" for="{{ i['answer_id'] }}_{{ loop.index }}">
             {{ j }}
         </label>
     </div>
@@ -25,7 +25,7 @@
   </div>
 </div>
 {% endfor %}
-<button class="btn btn-primary" type="submit">Check</button>
+<button class="btn btn-primary btn-hover-dark" type="submit">Check</button>
 </form>
 </div>
 

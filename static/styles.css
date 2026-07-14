@@ -48,11 +48,9 @@
 }
 
 .btn-progress {
-    background-color: #24866c;
-    border: 1px solid #24866c !important;
     width: 100%;
-    display: inline-block;  /* important inside tables */
-    margin: 10px 0 0;       /* no auto-centering */
+    display: inline-block;  
+    margin: 10px 0 0;       
 }
 
 .btn-progress.dropdown-toggle {
