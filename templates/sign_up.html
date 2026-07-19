@@ -2,34 +2,41 @@
 
 {% block main %}
 
-<div class = "justify-content-center centered align-items-center">
-  <h1>Sign up</h1>
-  <form action = "/sign_up" method = "POST" class = "form-group">
-    <div class="justify-content-center form-field">
-      <label for="exampleInputEmail1">Email address</label>
-      <input name = "email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
-    </div>
-    <div class = "form-field">
-      <label for="exampleInputPassword1">Password</label>
-      <input name = "password" type="password" class="form-control" placeholder="Password">
-    </div>
-    <div class = "form-field">
-      <label for="exampleInputPassword1">Name</label>
-      <input name = "name" type="text" class="form-control" placeholder="Name">
-    </div>
-    <div class="dropdown form-field">
-      <label>Select HSK level</label>
-        <input type="hidden" name="hsk_level" id="hsk_level" value="">
-          <button class="btn btn-sign-up dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">   
-              Select level...
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item">Level 1</a>
-              <a class="dropdown-item">Level 2</a>
+<div class = "justify-content-center centered align-items-center vertically-centered">
+  <div class = "card login-card">
+    <img src="/static/images/welcome.png" class="login-card-img">
+    <div class="card-body">
+      <div>
+         <h1>Register now</h1>
+        <form action = "/sign_up" method = "POST" class = "form-group login-form">
+          <div class="justify-content-center form-field">
+            <label for="exampleInputEmail1">Email address</label>
+            <input name = "email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
           </div>
-    </div> 
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+          <div class = "form-field">
+            <label for="exampleInputPassword1">Password</label>
+            <input name = "password" type="password" class="form-control" placeholder="Password">
+          </div>
+          <div class = "form-field">
+            <label for="exampleInputPassword1">Name</label>
+            <input name = "name" type="text" class="form-control" placeholder="Name">
+          </div>
+          <div class="dropdown form-field">
+            <label>Select HSK level</label>
+              <input type="hidden" name="hsk_level" id="hsk_level" value="">
+                <button class="btn btn-sign-up dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">   
+                    Select level...
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item">Level 1</a>
+                    <a class="dropdown-item">Level 2</a>
+                </div>
+          </div> 
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>

@@ -2,19 +2,26 @@
 
 {% block main %}
 
-<div class = "justify-content-center centered align-items-center ">
-  <h1>Sign in</h1>
-  <form action = "/sign_in" method = "POST" class = "form-group">
-    <div class="justify-content-center form-field">
-      <label for="exampleInputEmail1">Email address</label>
-      <input name = "email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+<div class = "justify-content-center centered align-items-center vertically-centered">
+  <div class = "card login-card">
+    <img src="/static/images/login.png" class="login-card-img">
+    <div class="card-body">
+      <div>
+         <h1>Log in</h1>
+        <form action = "/sign_in" method = "POST" class = "form-group login-form">
+        <div class="justify-content-center form-field">
+            <label for="exampleInputEmail1">Email address</label>
+            <input name = "email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class = "form-field">
+            <label for="exampleInputPassword1">Password</label>
+            <input name = "password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
     </div>
-    <div class = "form-field">
-      <label for="exampleInputPassword1">Password</label>
-      <input name = "password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+  </div>
 </div>
 
 {% endblock %}

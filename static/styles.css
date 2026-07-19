@@ -109,6 +109,34 @@
     text-align: center !important;
 }
 
+.vertically-centered{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+
+.login-card{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    overflow: hidden;
+}
+
+.login-card-img{
+    width: 50%;
+    max-width: 500px;
+    height: auto;
+    object-fit: cover;
+}
+
+.login-form{
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 .form-field{
     padding-bottom: 3%;
 }
