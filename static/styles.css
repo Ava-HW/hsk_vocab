@@ -1,5 +1,5 @@
 .navbar{
-    background-color: #24866c;
+    background-color: #A31C07;
 }
 
 .navbar .navbar-brand{
@@ -22,16 +22,27 @@
 }
 
 .jumbotron{
-    padding-top: 4%;
-    padding-bottom: 4%;
+    padding-top: 3%;
+}
+
+.jumbotron-homepage{
+    background-color: #FAEEDA;
 }
 
  .btn{
-    background-color: #24866c;
-    border:#24866c 1px solid !important;
+    background-color: #A31C07;
+    border:#A31C07 1px solid !important;
     text-align: center;
     display: block;
     margin: 10px auto 0;
+}
+
+.btn:hover{
+    background-color: #A31C07 !important;
+}
+
+.btn-homepage{
+    min-width: 180px;
 }
 
 .btn-quiz-start{
@@ -66,8 +77,8 @@
 }
 
 .progress-learned{
-    background-color: #24866c;
-    border: 1px solid #24866c !important;
+    background-color: #A31C07;
+    border: 1px solid #A31C07 !important;
 }
 
 .progress-learning{
@@ -115,7 +126,7 @@ td, th {
 }
 
 .progress-bar{
-    background-color: #24866c;
+    background-color: #A31C07;
 }
 
 .progress-bar-learning{
