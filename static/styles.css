@@ -164,3 +164,20 @@ td, th {
 .progress-bar-new{
     background-color: #756f65;
 }
+
+.link-card{
+    height: 300px;
+    width: 300px;
+    border-radius: 2%;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.link-card .card-body{
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.link-card:hover{
+    box-shadow: 0 1rem 1rem #DEE2E6 !important;
+}

@@ -74,4 +74,58 @@
     </tbody>
   </table>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusLinks = document.querySelectorAll('.status-link');
+
+    statusLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault(); 
+
+            const selectedStatus = this.textContent.trim();
+            const wordId = this.getAttribute('data-word-id'); 
+            const dropdownButton = this.closest('.dropdown').querySelector('.btn-progress');
+            const originalStatus = dropdownButton.textContent.trim();
+
+            dropdownButton.textContent = selectedStatus;
+
+            // change button color to new progress level
+            dropdownButton.classList.remove(
+                'progress-not_learned',
+                'progress-learned',
+                'progress-learning'
+            );
+
+            dropdownButton.classList.add(
+                'progress-' + selectedStatus.toLowerCase().replace(' ', '_')
+            );
+
+            // Send request to flask server to update status
+            fetch('/update_progress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    word_id: wordId,
+                    status: selectedStatus
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // if update request fails, then change button to original state
+                if (!data.success) {
+                    dropdownButton.textContent = originalStatus;
+                    dropdownButton.classList.add('progress-' + originalStatus.toLowerCase().replace(" ", "_"))
+                };
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                dropdownButton.textContent = originalStatus;
+            });
+        });
+    });
+});
+</script>
 {% endblock %}

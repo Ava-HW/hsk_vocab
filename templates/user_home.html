@@ -6,62 +6,17 @@
     <h1>Welcome {{ name }} </h1>
 </div>
 
-<div class = "d-flex flex-column justify-content-center align-items-center container">
-
+<div class = "d-flex gap-3 flex-md-row justify-content-center align-items-center container" style="padding-top: 3%;">
+    <a class= "card rounded-4" href="/start_quiz" style="text-decoration: none;">
+        <div class="card-body link-card d-flex align-items-center justify-content-center">
+            <h1>Start quiz</h1>
+        </div>
+    </a>
+    <a class="card rounded-4" href="/progress" style="text-decoration: none;">
+        <div class="card-body link-card d-flex align-items-center justify-content-center">
+            <h1>View progress</h1>
+        </div>
+    </a>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const statusLinks = document.querySelectorAll('.status-link');
-
-    statusLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault(); 
-
-            const selectedStatus = this.textContent.trim();
-            const wordId = this.getAttribute('data-word-id'); 
-            const dropdownButton = this.closest('.dropdown').querySelector('.btn-progress');
-            const originalStatus = dropdownButton.textContent.trim();
-
-            dropdownButton.textContent = selectedStatus;
-
-            // change button color to new progress level
-            dropdownButton.classList.remove(
-                'progress-not_learned',
-                'progress-learned',
-                'progress-learning'
-            );
-
-            dropdownButton.classList.add(
-                'progress-' + selectedStatus.toLowerCase().replace(' ', '_')
-            );
-
-            // Send request to flask server to update status
-            fetch('/update_progress', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    word_id: wordId,
-                    status: selectedStatus
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // if update request fails, then change button to original state
-                if (!data.success) {
-                    dropdownButton.textContent = originalStatus;
-                    dropdownButton.classList.add('progress-' + originalStatus.toLowerCase().replace(" ", "_"))
-                };
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                dropdownButton.textContent = originalStatus;
-            });
-        });
-    });
-});
-</script>
 
 {% endblock %}
