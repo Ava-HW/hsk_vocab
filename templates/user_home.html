@@ -7,40 +7,7 @@
 </div>
 
 <div class = "d-flex flex-column justify-content-center align-items-center container">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Hanzi</th>
-        <th scope="col">Pinyin</th>
-        <th scope="col">English</th>
-        <th scope="col">HSK Level</th>
-        <th scope="col">Progress</th>
-      </tr>
-    </thead>
-      <tbody>
-      {% for i in words %}
-      <tr>
-      <td> {{ i['hanzi'] }} </td>
-      <td> {{ i['pinyin'] }} </td>
-      <td> {{ i['english'] }} </td>
-      <td> {{ i['hsk_level'] }} </td>
-      <!-- <td> {{ i['word_id']}}></td> is word id number-->
-      <td>
-          <div class="dropdown">
-          <button class="btn-progress btn btn-secondary dropdown-toggle progress-{{ ( progress_message[i['word_id']] or 'not_learned' ) | lower | replace(' ', '_') }}" type="button" data-bs-toggle="dropdown" aria-expanded="false">   
-              {{ progress_message[i['word_id']] or "Not learned" }}
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item status-link" data-word-id = "{{ i['word_id']}}" href="#">Not learned</a>
-              <a class="dropdown-item status-link" data-word-id = "{{ i['word_id']}}" href="#">Learning</a>
-              <a class="dropdown-item status-link" data-word-id = "{{ i['word_id']}}" href="#">Learned</a>
-          </div>
-          </div>
-      </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+
 </div>
 
 <script>

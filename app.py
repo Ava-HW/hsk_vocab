@@ -304,13 +304,7 @@ def progress():
             learning += amount[f'level_{i}_learning']
     # calculate no. of not learned words
     not_learned = total_words - learning - learned
-    return render_template("progress.html", learned=learned, learning=learning, not_learned=not_learned, total_words=total_words)
-
-@app.route("/user_home", methods = ["POST", "GET"])
-@login_required
-def user_home():
-    db = get_db()
-    cur = db.cursor()
+    # get list of words and progress level to display in table
     # get list of words to display
     cur.execute("SELECT * FROM words;")
     words = []
@@ -328,4 +322,12 @@ def user_home():
     progress_message = {}
     for i in words_progress:
         progress_message[i['word_id']]=  progress_description[i['progress_level']]
-    return render_template("user_home.html", progress_message=progress_message, words = words, name = name)
+    return render_template("progress.html", learned=learned, learning=learning, not_learned=not_learned, total_words=total_words,  progress_message=progress_message, words = words, name = name)
+
+@app.route("/user_home", methods = ["POST", "GET"])
+@login_required
+def user_home():
+    db = get_db()
+    cur = db.cursor()
+    
+    return render_template("user_home.html")
