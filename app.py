@@ -35,18 +35,18 @@ def get_db():
     return db
 
 progress_description = {
-    1: "Not Learned",
+    1: "New",
     2: "Learning",
-    3: "Learned"
+    3: "Mastered"
 }
 
 description_progress = {
-    "Not learned" : 1,
+    "New" : 1,
     "Learning" : 2, 
-    "Learned" : 3,
-    "not_learned" : 1,
+    "Mastered" : 3,
+    "new" : 1,
     "learning" : 2, 
-    "learned": 3
+    "mastered": 3
 }
 
 @app.teardown_appcontext
@@ -109,7 +109,7 @@ def sign_up():
             cur.execute(query, data)   
         except:
             return render_template("sign_up.html")
-        # set all words to not learned initially
+        # set all words to new initially
         cur.execute("SELECT * FROM words;")
         word_list = cur.fetchall()
         cur.execute("SELECT user_id FROM users WHERE email = ?;", (email,))
@@ -276,19 +276,19 @@ def progress():
     cur.execute("SELECT * FROM words WHERE hsk_level <= ?;", (session['hsk_level'],))
     words_list = cur.fetchall()
     total_words = len(words_list)
-    # find no. of learned words
-    learned = 0
+    # find no. of mastered words
+    mastered = 0
     for i in range(1, session['hsk_level'] + 1):
         query = f"""
-        SELECT level_{i}_learned 
+        SELECT level_{i}_mastered 
         FROM users
         WHERE user_id = ?;
         """
         data = (session['user_id'],)
         cur.execute(query, data)
         amount = cur.fetchone()
-        if amount[f'level_{i}_learned']: 
-            learned += amount[f'level_{i}_learned']
+        if amount[f'level_{i}_mastered']: 
+            mastered += amount[f'level_{i}_mastered']
     # find no. of learning words
     learning = 0
     for i in range(1, session['hsk_level'] + 1):
@@ -302,8 +302,8 @@ def progress():
         amount = cur.fetchone()
         if amount[f'level_{i}_learning']: 
             learning += amount[f'level_{i}_learning']
-    # calculate no. of not learned words
-    not_learned = total_words - learning - learned
+    # calculate no. of new words
+    new = total_words - learning - mastered
     # get list of words and progress level to display in table
     # get list of words to display
     cur.execute("SELECT * FROM words;")
@@ -322,7 +322,7 @@ def progress():
     progress_message = {}
     for i in words_progress:
         progress_message[i['word_id']]=  progress_description[i['progress_level']]
-    return render_template("progress.html", learned=learned, learning=learning, not_learned=not_learned, total_words=total_words,  progress_message=progress_message, words = words, name = name)
+    return render_template("progress.html", mastered=mastered, learning=learning, new=new, total_words=total_words,  progress_message=progress_message, words = words, name = name)
 
 @app.route("/user_home", methods = ["POST", "GET"])
 @login_required

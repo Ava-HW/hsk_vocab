@@ -70,13 +70,13 @@
     justify-content: center;
 }
 
-.progress-not_learned{
+.progress-new{
     background-color: #F1EFE8;
     border: 1px solid #F1EFE8 !important;
     color: #444441;
 }
 
-.progress-learned{
+.progress-mastered{
     background-color: #A31C07;
     border: 1px solid #A31C07 !important;
 }

@@ -7,10 +7,10 @@
         <div class = "col-md-4">
             <div class = "card">
                 <div class = "card-body">
-                    Learned
-                    <h1 class = "card-title">{{ learned }}</h1>
+                    Mastered
+                    <h1 class = "card-title">{{ mastered }}</h1>
                     <div class="progress">
-                        <div class="progress-bar" style="width: {{learned/total_words * 100}}%;" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" style="width: {{mastered/total_words * 100}}%;" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -30,9 +30,9 @@
             <div class = "card">
                 <div class = "card-body">
                     New
-                    <h1 class = "card-title">{{ not_learned }}</h1>
+                    <h1 class = "card-title">{{ new }}</h1>
                     <div class = "progress">
-                        <div class="progress-bar progress-bar-new" style="width: {{(total_words - learning - learned) /total_words * 100}}%;" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar progress-bar-new" style="width: {{(total_words - learning - mastered) /total_words * 100}}%;" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -59,13 +59,13 @@
       <!-- <td> {{ i['word_id']}}></td> is word id number-->
       <td>
           <div class="dropdown">
-          <button class="btn-progress btn btn-secondary dropdown-toggle progress-{{ ( progress_message[i['word_id']] or 'not_learned' ) | lower | replace(' ', '_') }}" type="button" data-bs-toggle="dropdown" aria-expanded="false">   
-              {{ progress_message[i['word_id']] or "Not learned" }}
+          <button class="btn-progress btn btn-secondary dropdown-toggle progress-{{ ( progress_message[i['word_id']] or 'new' ) | lower | replace(' ', '_') }}" type="button" data-bs-toggle="dropdown" aria-expanded="false">   
+              {{ progress_message[i['word_id']] or "New" }}
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item status-link" data-word-id = "{{ i['word_id']}}" href="#">Not learned</a>
+              <a class="dropdown-item status-link" data-word-id = "{{ i['word_id']}}" href="#">New</a>
               <a class="dropdown-item status-link" data-word-id = "{{ i['word_id']}}" href="#">Learning</a>
-              <a class="dropdown-item status-link" data-word-id = "{{ i['word_id']}}" href="#">Learned</a>
+              <a class="dropdown-item status-link" data-word-id = "{{ i['word_id']}}" href="#">Mastered</a>
           </div>
           </div>
       </td>
@@ -92,8 +92,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // change button color to new progress level
             dropdownButton.classList.remove(
-                'progress-not_learned',
-                'progress-learned',
+                'progress-new',
+                'progress-mastered',
                 'progress-learning'
             );
 
