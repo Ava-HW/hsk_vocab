@@ -265,6 +265,7 @@ def submit_quiz():
             submitted_answers.append(response)
             if response == i['answer']:
                 score += 1
+    print(submitted_answers)
     return render_template("submit_quiz.html", score=score, submitted_answers=submitted_answers)
 
 @app.route("/progress")

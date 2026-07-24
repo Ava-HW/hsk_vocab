@@ -45,10 +45,26 @@
     min-width: 180px;
 }
 
+.btn-check{
+    width: 0px;
+}
+
 .btn-quiz-start{
     background-color: #F1EFE8;
     width: 100%;
     text-align: left;
+}
+
+.btn-quiz{
+    background-color: #FFFFFF;
+}
+
+.btn-quiz:hover{
+    background-color: #FFFFFF !important;
+}
+
+.btn-check:checked + .btn-quiz{
+    background-color: #c3c866 !important;
 }
 
 .btn-sign-up{
@@ -146,11 +162,15 @@ td, th {
 }
 
 .correct-selection{
-    background-color: green;
+    background-color: green !important;
 }
 
 .incorrect-selection{
-    background-color: red;
+    background-color: red !important;
+}
+
+.blank-selection{
+    background-color: yellow !important;
 }
 
 .progress-bar{

@@ -17,24 +17,31 @@
     <!-- Show answer options -->
      {% set ind = loop.index -1 %}
      {% for j in i['options'] %}
-     {% if j == i['answer'] %}
-     <div class="form-check bg-success-subtle">
-        <input class="form-check-input correct-selection" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
-        <label class="form-check-label" for="flexRadioDefault1">
-            {{ j }}
+     {% if j == i['answer'] and submitted_answers[ind] != None %}
+     <div class="mb-2 bg-success-subtle">
+        <input class="btn-check" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
+        <label class="btn correct-selection btn-quiz" for="flexRadioDefault1">
+            {{ j }} ✓
+        </label>
+    </div>
+    {% elif j == i['answer'] and submitted_answers[ind] == None %}
+     <div class="mb-2 bg-success-subtle">
+        <input class="btn-check" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
+        <label class="btn blank-selection btn-quiz" for="flexRadioDefault1">
+            {{ j }} 
         </label>
     </div>
     {% elif j == submitted_answers[ind] and j != i['answer'] %}
-    <div class="form-check bg-danger-subtle">
-        <input class="form-check-input incorrect-selection" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
-        <label class="form-check-label" for="flexRadioDefault1">
-            {{ j }}
+    <div class="mb-2 bg-danger-subtle">
+        <input class="btn-check " type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
+        <label class="btn btn-quiz incorrect-selection" for="flexRadioDefault1">
+            {{ j }} ✗
         </label>
     </div>
     {% else %}
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
-        <label class="form-check-label" for="flexRadioDefault1">
+    <div class="mb-2">
+        <input class="btn-check" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
+        <label class="btn btn-quiz" for="flexRadioDefault1">
             {{ j }}
         </label>
     </div>

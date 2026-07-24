@@ -15,9 +15,9 @@
     {% endif %}
     <!-- Show answer options -->
      {% for j in i['options'] %}
-     <div class="form-check">
-        <input class="form-check-input" type="radio" name="{{ i['answer_id']}}" id="{{ i['answer_id'] }}_{{ loop.index }}" value="{{ j }}">
-        <label class="form-check-label" for="{{ i['answer_id'] }}_{{ loop.index }}">
+     <div class="mb-2">
+        <input class="btn-check" type="radio" name="{{ i['answer_id']}}" id="{{ i['answer_id'] }}_{{ loop.index }}" value="{{ j }}">
+        <label class="btn btn-quiz" for="{{ i['answer_id'] }}_{{ loop.index }}">
             {{ j }}
         </label>
     </div>
