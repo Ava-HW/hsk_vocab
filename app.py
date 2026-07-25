@@ -256,6 +256,8 @@ def quiz():
 @login_required
 @app.route("/submit_quiz", methods=["GET", "POST"])
 def submit_quiz():
+    db=get_db()
+    cur=db.cursor()
     submitted_answers = []
     score = 0
     if request.method == "POST":
@@ -264,8 +266,17 @@ def submit_quiz():
             response = request.form.get(i['answer_id'])
             submitted_answers.append(response)
             if response == i['answer']:
+                # increment number of correct answers for that word
+                data = (i['answer_id'], session['user_id'])
+                query = """
+                    UPDATE users_words_progress
+                    SET correct_answers = correct_answers + 1
+                    WHERE word_id = ? AND user_id = ?;
+                """
+                cur.execute(query, data)
+                print(session['user_id'], i['answer_id'])
                 score += 1
-    print(submitted_answers)
+            db.commit()
     return render_template("submit_quiz.html", score=score, submitted_answers=submitted_answers)
 
 @app.route("/progress")
