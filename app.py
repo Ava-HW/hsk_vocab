@@ -279,6 +279,11 @@ def submit_quiz():
             db.commit()
     return render_template("submit_quiz.html", score=score, submitted_answers=submitted_answers)
 
+@app.route("/quiz_results")
+@login_required
+def quiz_results():
+    return render_template("quiz_results.html")
+
 @app.route("/progress")
 @login_required
 def progress():

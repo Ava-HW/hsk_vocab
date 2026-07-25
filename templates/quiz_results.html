@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+
+{% for i in session['quiz_questions'] %}
+<div class="container">
+{{ i }}
+</div>
+
+{% endfor %}
+{% endblock %}
