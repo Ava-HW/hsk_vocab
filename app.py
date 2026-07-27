@@ -2,8 +2,10 @@ from flask import Flask, render_template, session, jsonify
 from flask import request, redirect, url_for
 from functools import wraps
 from flask import g, redirect
+from flask import flash
 import sqlite3
 import random
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -81,13 +83,14 @@ def sign_in():
         cur.execute(query, data)
         result = cur.fetchone()
         if result:
-            if(result['password'] == password):
+            if check_password_hash(result['password'], password):
                 # get user id number
                 cur.execute("SELECT user_id, hsk_level FROM users WHERE email = ?;", (email,))
                 details = cur.fetchone()
                 session['user_id'] = details['user_id']
                 session['hsk_level'] = details['hsk_level']
                 return redirect(url_for("user_home"))
+        flash("Incorrect email or password", "danger")
     return render_template("sign_in.html")
 
 @app.route("/sign_up", methods = ["POST", "GET"])
@@ -97,6 +100,7 @@ def sign_up():
     if request.method == "POST":
         email = request.form.get('email')
         password = request.form.get('password')
+        hashed_password = generate_password_hash(password)
         name = request.form.get('name')
         hsk_level = request.form.get('hsk_level').replace("level_", "")
         query = "INSERT INTO users (email, password, name, hsk_level) VALUES (?, ?, ?, ?);"
@@ -104,7 +108,7 @@ def sign_up():
             hsk_level = int(hsk_level)
         else:
             return render_template("sign_up.html")
-        data = (email, password, name, hsk_level)
+        data = (email, hashed_password, name, hsk_level)
         try:
             cur.execute(query, data)   
         except:

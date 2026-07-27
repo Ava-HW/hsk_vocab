@@ -8,6 +8,16 @@
     <div class="card-body">
       <div>
          <h1>Log in</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for catergory, message in messages %}
+             <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
         <form action = "/sign_in" method = "POST" class = "form-group login-form">
         <div class="justify-content-center form-field">
             <label for="exampleInputEmail1">Email address</label>
