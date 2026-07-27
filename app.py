@@ -57,6 +57,50 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+def get_level_counts():
+    learned = 0
+    mastered = 0
+    total_words = 0
+    db = get_db()
+    cur = db.cursor()
+    # find no. of total words
+    cur.execute("SELECT * FROM words WHERE hsk_level <= ?;", (session['hsk_level'],))
+    words_list = cur.fetchall()
+    total_words = len(words_list)
+    # find no. of mastered words
+    for i in range(1, session['hsk_level'] + 1):
+        query = f"""
+        SELECT level_{i}_mastered 
+        FROM users
+        WHERE user_id = ?;
+        """
+        data = (session['user_id'],)
+        cur.execute(query, data)
+        amount = cur.fetchone()
+        if amount[f'level_{i}_mastered']: 
+            mastered += amount[f'level_{i}_mastered']
+    # find no. of learning words
+    learning = 0
+    for i in range(1, session['hsk_level'] + 1):
+        query = f"""
+        SELECT level_{i}_learning 
+        FROM users
+        WHERE user_id = ?;
+        """
+        data = (session['user_id'],)
+        cur.execute(query, data)
+        amount = cur.fetchone()
+        if amount[f'level_{i}_learning']: 
+            learning += amount[f'level_{i}_learning']
+    # calculate no. of new words
+    new = total_words - learning - mastered
+    ans = {"mastered": mastered, 
+           "learning": learning,
+           "new": new,
+           "total_words" : total_words
+           }
+    return ans
+
  
 @app.route("/")
 def index():
@@ -189,6 +233,8 @@ def update_progress():
 def start_quiz():
     db = get_db()
     cur = db.cursor()
+    # get list of progress where at least 1 word is at that level
+    word_counts = get_level_counts()
     if request.method == "POST":
         num_questions = int(request.form.get('num_questions'))
         progress_level = request.form.get('progress_level')
@@ -293,38 +339,12 @@ def quiz_results():
 def progress():
     db = get_db()
     cur = db.cursor()
-    # find no. of total words
-    cur.execute("SELECT * FROM words WHERE hsk_level <= ?;", (session['hsk_level'],))
-    words_list = cur.fetchall()
-    total_words = len(words_list)
-    # find no. of mastered words
-    mastered = 0
-    for i in range(1, session['hsk_level'] + 1):
-        query = f"""
-        SELECT level_{i}_mastered 
-        FROM users
-        WHERE user_id = ?;
-        """
-        data = (session['user_id'],)
-        cur.execute(query, data)
-        amount = cur.fetchone()
-        if amount[f'level_{i}_mastered']: 
-            mastered += amount[f'level_{i}_mastered']
-    # find no. of learning words
-    learning = 0
-    for i in range(1, session['hsk_level'] + 1):
-        query = f"""
-        SELECT level_{i}_learning 
-        FROM users
-        WHERE user_id = ?;
-        """
-        data = (session['user_id'],)
-        cur.execute(query, data)
-        amount = cur.fetchone()
-        if amount[f'level_{i}_learning']: 
-            learning += amount[f'level_{i}_learning']
-    # calculate no. of new words
-    new = total_words - learning - mastered
+    # get no. of words at each level
+    word_counts = get_level_counts()
+    new = word_counts['new']
+    learning = word_counts['learning']
+    mastered = word_counts['mastered']
+    total_words = word_counts['total_words']
     # get list of words and progress level to display in table
     # get list of words to display
     cur.execute("SELECT * FROM words;")
