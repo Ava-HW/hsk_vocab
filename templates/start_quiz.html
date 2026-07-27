@@ -22,9 +22,9 @@
               Progress level
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item">Learning</a>
-              <a class="dropdown-item">Mastered</a>
-              <a class="dropdown-item">New</a>
+              {% for i in valid_options %}
+              <a class="dropdown-item">{{ i|title }}</a>  
+              {% endfor %}
               <a class="dropdown-item">All progress levels</a>
           </div>
     </div> 

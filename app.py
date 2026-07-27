@@ -235,6 +235,11 @@ def start_quiz():
     cur = db.cursor()
     # get list of progress where at least 1 word is at that level
     word_counts = get_level_counts()
+    options = ["mastered", "new", "learning"]
+    valid_options = []
+    for i in options:
+        if word_counts[i] > 0:
+            valid_options.append(i)
     if request.method == "POST":
         num_questions = int(request.form.get('num_questions'))
         progress_level = request.form.get('progress_level')
@@ -296,7 +301,7 @@ def start_quiz():
             quiz_questions.append(question)
         session['quiz_questions'] = quiz_questions
         return redirect(url_for('quiz'))
-    return render_template("start_quiz.html")
+    return render_template("start_quiz.html", valid_options=valid_options)
 
 @login_required
 @app.route("/quiz", methods=["GET", "POST"])
