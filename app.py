@@ -109,6 +109,11 @@ def index():
     session.clear()
     return render_template("index.html")
 
+# handle 404 errors
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
 @app.route("/logout")
 def logout():
     session.clear()
