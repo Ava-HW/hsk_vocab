@@ -201,3 +201,14 @@ td, th {
 .link-card:hover{
     box-shadow: 0 1rem 1rem #DEE2E6 !important;
 }
+
+.site-title{
+    color: #a11a12;
+    font-weight: 800;
+    font-size: 8rem;
+    padding-bottom: 0%;
+}
+
+.img-divider{
+    padding-top: 0%;
+}
