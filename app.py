@@ -151,7 +151,10 @@ def sign_up():
         password = request.form.get('password')
         hashed_password = generate_password_hash(password)
         name = request.form.get('name')
-        hsk_level = request.form.get('hsk_level').replace("level_", "")
+        if not email or not password or not name:
+            flash("Please fill in all fields!", "danger")
+            return render_template("sign_up.html")
+        hsk_level = 2
         query = "INSERT INTO users (email, password, name, hsk_level) VALUES (?, ?, ?, ?);"
         if hsk_level:
             hsk_level = int(hsk_level)
@@ -161,7 +164,7 @@ def sign_up():
         try:
             cur.execute(query, data)   
         except:
-            return render_template("sign_up.html")
+            flash("Email already registered!", "danger")
         # set all words to new initially
         cur.execute("SELECT * FROM words;")
         word_list = cur.fetchall()
@@ -171,7 +174,8 @@ def sign_up():
         for i in word_list:
             data = (i['word_id'], user_id, 1)
             cur.execute("INSERT INTO users_words_progress (word_id, user_id, progress_level) VALUES (?, ?, ?);", data)
-        db.commit()     
+        db.commit()  
+        flash("Sucessfully registered!", "danger")   
     return render_template("sign_up.html")
 
 @app.route("/update_progress", methods=['POST'])
