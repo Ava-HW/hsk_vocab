@@ -199,7 +199,7 @@ td, th {
 }
 
 .link-card:hover{
-    box-shadow: 0 1rem 1rem #DEE2E6 !important;
+    box-shadow: 0 1rem 1rem #FAEEDA !important;
 }
 
 .site-title{
@@ -211,4 +211,9 @@ td, th {
 
 .img-divider{
     padding-top: 0%;
+}
+
+.link-button-icon{
+    max-width: 100px;
+    height:auto;
 }
