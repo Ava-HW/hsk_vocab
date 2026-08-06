@@ -138,6 +138,8 @@
     flex-direction: row;
     align-items: stretch;
     overflow: hidden;
+    min-height: 400px;
+    min-width: 800px;
 }
 
 .login-card-img{
