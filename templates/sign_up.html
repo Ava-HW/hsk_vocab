@@ -8,7 +8,7 @@
     <div class="card-body">
       <div>
          <h1>Register now</h1>
-        <form action = "/sign_up" method = "POST" class = "form-group login-form" autocomplete="öff">
+        <form action = "/sign_up" method = "POST" class = "form-group login-form" autocomplete="off">
           <div class="justify-content-center form-field">
             <label for="exampleInputEmail1">Email address</label>
             <input name = "email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')">
@@ -22,7 +22,7 @@
             <input name = "name" type="text" class="form-control" placeholder="Name">
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
-                    {% with messages = get_flashed_messages(with_categories=true) %}
+          {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% for category, message in messages %}
              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
@@ -37,21 +37,5 @@
     </div>
   </div>
 </div>
-
-<script>
-    document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', function() { 
-            // update text displayed on button
-            const dropdown = this.closest('.dropdown');
-            const button = dropdown.querySelector('.dropdown-toggle');
-            button.textContent = this.textContent;
-            // update hidden input field
-            const hiddenInput = dropdown.querySelector('input[type="hidden"]');
-            if (hiddenInput) {
-                hiddenInput.value = this.textContent.trim().toLowerCase().replaceAll(" ", "_");
-            }
-        });
-    });
-</script>
 
 {% endblock %}
