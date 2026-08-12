@@ -8,10 +8,10 @@
     <div class="card-body">
       <div>
          <h1>Register now</h1>
-        <form action = "/sign_up" method = "POST" class = "form-group login-form">
+        <form action = "/sign_up" method = "POST" class = "form-group login-form" autocomplete="öff">
           <div class="justify-content-center form-field">
             <label for="exampleInputEmail1">Email address</label>
-            <input name = "email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+            <input name = "email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')">
           </div>
           <div class = "form-field">
             <label for="exampleInputPassword1">Password</label>

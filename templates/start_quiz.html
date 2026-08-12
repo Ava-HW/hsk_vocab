@@ -2,57 +2,80 @@
 
 {% block main %}
 
-<div class = "justify-content-center centered align-items-center ">
-<h1>Quiz</h1>
-  <form action = "/start_quiz" method = "POST" class = "form-group">
-    <div class="dropdown form-field">
-        <input type="hidden" name="num_questions" id="num_questions" value="10">
-          <button class="btn btn-quiz-start dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">   
-              Number of questions...
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item">10</a>
-              <a class="dropdown-item">15</a>
-              <a class="dropdown-item">20</a>
-          </div>
+<div class = "justify-content-center centered align-items-center d-flex">
+<div class = "card quiz-start-card">
+    <h1 class = "card-title">Quiz</h1>
+    <p class = "card-text">Customise your quiz and get started!</p>
+  <form action = "/start_quiz" method = "POST" class = "form-group-quiz">
+    <div class="form-field">
+        1. Number of questions
+        <div class = "row">
+            <div class = "col">
+                <label class = "form-check card quiz-start-option-card">
+                    <div class = "card-body">
+                    <input class="form-check-input" type="radio" name="num_questions" id="num_10" value="10">
+                        10
+                    </div>
+                </label>
+            </div>
+            <div class = "col">
+                <label class = "form-check card quiz-start-option-card">
+                    <div class = "card-body">
+                    <input class="form-check-input" type="radio" name="num_questions" id="num_15" value="15">
+                        15
+                    </div>
+                </label>
+            </div>
+            <div class = "col">
+                <label class = "form-check card quiz-start-option-card">
+                    <div class = "card-body">
+                    <input class="form-check-input" type="radio" name="num_questions" id="num_20" value="20">
+                        20
+                    </div>
+                </label>
+            </div>
+        </div>
     </div> 
-    <div class="dropdown form-field">
-        <input type="hidden" name="progress_level" id="progress_level" value="mastered">
-          <button class="btn btn-quiz-start dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">   
-              Progress level
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              {% for i in valid_options %}
-              <a class="dropdown-item">{{ i|title }}</a>  
-              {% endfor %}
-              <a class="dropdown-item">All progress levels</a>
-          </div>
-    </div> 
-    <div class="form-check">
-    <input class="form-check-input" type="checkbox" value="true" name = "show_pinyin" id="showPinyin">
-        <label class="form-check-label" for="flexCheckDefault">
-            Show pinyin
-        </label>
+    <div class = "form-field">
+        2. Show words with progress level: 
+        <div class = "row">
+             {% for i in valid_options %}
+             <div class = "col">
+                <label class = "form-check card quiz-start-option-card">
+                    <div class = "card-body">
+                    <input class="form-check-input" type="radio" name="progress_level" id="{{ i }}_progress" value="{{ i }}">
+                        {{ i|title | replace("_", "  ") }}
+                    </div>
+                </label>
+            </div>
+            {% endfor %}
+        </div>
     </div>
+    <div class="form-field">
+        3. Show pinyin?
+        <div class = "row">
+            <div class = "col">
+                <label class = "form-check card quiz-start-option-card">
+                    <div class = "card-body">
+                        <input class="form-check-input" type="radio" name="show_pinyin" id="pinyin-true" value="true">
+                        Yes
+                    </div>
+                </label>
+            </div>
+            <div class = "col">
+                <label class = "form-check card quiz-start-option-card">
+                    <div class = "card-body">
+                        <input class="form-check-input" type="radio" name="show_pinyin" id="pinyin-false" value="false">
+                        No
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-check">
     <button class="btn btn-primary" type="submit">Start</button>
   </form>
 </div>
-
-<script>
-    document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', function() { 
-            // update text displayed on button
-            const dropdown = this.closest('.dropdown');
-            const button = dropdown.querySelector('.dropdown-toggle');
-            button.textContent = this.textContent;
-            // update hidden input field
-            const hiddenInput = dropdown.querySelector('input[type="hidden"]');
-            if (hiddenInput) {
-                hiddenInput.value = this.textContent.trim().toLowerCase().replaceAll(" ", "_");
-            }
-        });
-    });
-</script>
-
+</div>
 
 {% endblock %}

@@ -245,7 +245,7 @@ def start_quiz():
     # get list of progress where at least 1 word is at that level
     word_counts = get_level_counts()
     options = ["mastered", "new", "learning"]
-    valid_options = []
+    valid_options = ["all_progress_levels"]
     for i in options:
         if word_counts[i] > 0:
             valid_options.append(i)
@@ -330,15 +330,6 @@ def submit_quiz():
             response = request.form.get(i['answer_id'])
             submitted_answers.append(response)
             if response == i['answer']:
-                # increment number of correct answers for that word
-                data = (i['answer_id'], session['user_id'])
-                query = """
-                    UPDATE users_words_progress
-                    SET correct_answers = correct_answers + 1
-                    WHERE word_id = ? AND user_id = ?;
-                """
-                cur.execute(query, data)
-                print(session['user_id'], i['answer_id'])
                 score += 1
             db.commit()
     return render_template("submit_quiz.html", score=score, submitted_answers=submitted_answers)

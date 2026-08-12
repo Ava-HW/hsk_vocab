@@ -219,3 +219,20 @@ td, th {
     max-width: 100px;
     height:auto;
 }
+
+.quiz-start-card{
+    min-width: 400px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.quiz-start-option-card{
+    display: inline block !important;
+}
+
+.form-group-quiz{
+    width: 100% !important;
+    padding-top: 3%;
+}
