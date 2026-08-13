@@ -250,7 +250,7 @@ def start_quiz():
     if request.method == "POST":
         num_questions = int(request.form.get('num_questions'))
         progress_level = request.form.get('progress_level')
-        show_pinyin = request.form.get('show_pinyin')
+        show_pinyin = (request.form.get('show_pinyin') == "true")
         if(show_pinyin):
             session['show_pinyin'] = True
         else:
