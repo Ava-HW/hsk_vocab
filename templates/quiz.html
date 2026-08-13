@@ -14,14 +14,17 @@
     <h6>{{i['pinyin']}}</h6>
     {% endif %}
     <!-- Show answer options -->
-     {% for j in i['options'] %}
-     <div class="mb-2">
-        <input class="btn-check" type="radio" name="{{ i['answer_id']}}" id="{{ i['answer_id'] }}_{{ loop.index }}" value="{{ j }}">
-        <label class="btn btn-quiz" for="{{ i['answer_id'] }}_{{ loop.index }}">
-            {{ j }}
-        </label>
+    <div class = "row">
+        {% for j in i['options'] %}
+          <div class="mb-2 col-6">
+              <input class="btn-check" type="radio" name="{{ i['answer_id']}}" id="{{ i['answer_id'] }}_{{ loop.index }}" value="{{ j }}">
+              <label class="btn btn-quiz" for="{{ i['answer_id'] }}_{{ loop.index }}">
+                  {{ j }}
+              </label>
+          </div>
+      {% endfor %}
     </div>
-     {% endfor %}
+     
   </div>
 </div>
 {% endfor %}

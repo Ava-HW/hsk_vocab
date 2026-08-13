@@ -7,7 +7,7 @@
 <h2>Score: {{ score }} / {{ submitted_answers|length}}</h2>
 <div class="form-group">
 {% for i in session['quiz_questions'] %}
-<div class="card">
+<div class="card quiz-card">
   <div class="card-body">
     <!-- Show hanzi, pinyin if selected -->
     <h5 class = "card-title">{{ i['hanzi']}}</h5>
@@ -16,30 +16,31 @@
     {% endif %}
     <!-- Show answer options -->
      {% set ind = loop.index -1 %}
-     {% for j in i['options'] %}
+     <div class = row>
+             {% for j in i['options'] %}
      {% if j == i['answer'] and submitted_answers[ind] != None %}
-     <div class="mb-2 bg-success-subtle">
+     <div class="mb-2 col-6">
         <input class="btn-check" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
         <label class="btn correct-selection btn-quiz" for="flexRadioDefault1">
             {{ j }} ✓
         </label>
     </div>
     {% elif j == i['answer'] and submitted_answers[ind] == None %}
-     <div class="mb-2 bg-success-subtle">
+     <div class="mb-2 col-6">
         <input class="btn-check" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
         <label class="btn blank-selection btn-quiz" for="flexRadioDefault1">
             {{ j }} 
         </label>
     </div>
     {% elif j == submitted_answers[ind] and j != i['answer'] %}
-    <div class="mb-2 bg-danger-subtle">
+    <div class="mb-2 col-6">
         <input class="btn-check " type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
         <label class="btn btn-quiz incorrect-selection" for="flexRadioDefault1">
             {{ j }} ✗
         </label>
     </div>
     {% else %}
-    <div class="mb-2">
+    <div class="mb-2 col-6">
         <input class="btn-check" type="radio" name="{{ i['pinyin']}}" id="{{ i['pinyin'] }}_{{ loop.index }}" value="{{ j }}">
         <label class="btn btn-quiz" for="flexRadioDefault1">
             {{ j }}
@@ -47,10 +48,18 @@
     </div>
     {% endif %}
     {% endfor %}
+     </div>
   </div>
 </div>
 {% endfor %}
-<a class="btn btn-hover-dark btn-primary" href="/start_quiz">Another quiz</a>
+<div class="row">
+    <div class = "col">
+        <a class="btn btn-hover-dark btn-primary" href="/user_home">Go home</a>
+    </div>
+    <div class = "col">
+        <a class="btn btn-hover-dark btn-primary" href="/start_quiz">Another quiz</a>
+    </div>
+</div>
 </div>
 
 

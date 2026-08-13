@@ -265,10 +265,11 @@ def start_quiz():
                 INNER JOIN users_words_progress ON words.word_id = users_words_progress.word_id
                 WHERE users_words_progress.progress_level = ?
                 AND words.hsk_level <= ?
+                AND users_words_progress.user_id = ?
                 ORDER BY random()
                 LIMIT ?;
             """ 
-            data = (progress_num, session['hsk_level'], num_questions)
+            data = (progress_num, session['hsk_level'], session['user_id'], num_questions)
         else:
             query = """
                 SELECT DISTINCT * FROM words
@@ -307,6 +308,8 @@ def start_quiz():
             question['options'] = options
             quiz_questions.append(question)
         session['quiz_questions'] = quiz_questions
+        for i in session['quiz_questions']:
+            print(i)
         return redirect(url_for('quiz'))
     return render_template("start_quiz.html", valid_options=valid_options)
 
