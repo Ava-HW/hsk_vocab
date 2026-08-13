@@ -4,7 +4,8 @@
 
 <div class = "justify-content-center centered align-items-center" style="margin-bottom: 10%;">
 <h1>Quiz</h1>
-<form action = "/submit_quiz" class="form-group" method="POST">
+<p>Select the correct meaning for each word!</p>
+<form action = "/submit_quiz" method="POST">
 {% for i in session['quiz_questions'] %}
 <div class="card quiz-card">
   <div class="card-body">
