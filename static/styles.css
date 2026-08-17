@@ -214,6 +214,18 @@ h1{
     padding-bottom: 3%;
 }
 
+.explanation-box{
+    padding: 3%;
+}
+
+.explanation-box h1{
+    padding-bottom: 1%;
+}
+
+.explanation-box p{
+    padding-bottom: 1%;
+}
+
 td, th {
   vertical-align: middle;
 }
@@ -243,7 +255,7 @@ td, th {
 }
 
 .link-card{
-    height: 300px;
+    height: 50vh;
     border-radius: 2%;
     transition: box-shadow 0.3s ease-in-out;
 }
@@ -269,8 +281,19 @@ td, th {
     padding-top: 0%;
 }
 
+.link-button-circle{
+    border-radius: 50%;
+    background-color: #de831c;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 140px;
+    width: 140px;
+}
+
 .link-button-icon{
-    max-width: 100px;
+    max-width: 80px;
     height:auto;
 }
 
@@ -298,4 +321,13 @@ td, th {
     position: absolute;
     bottom: 0;
     left: 0;
+}
+
+.corner-cat{
+    justify-content: left;
+}
+
+.corner-cat-img{
+    height: 300px;
+    width: auto;
 }

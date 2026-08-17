@@ -18,12 +18,11 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# to activate venv: .\.venv\Scripts\Activate.ps1
-
 # code to connect database to flask app
 DATABASE = 'hsk.db'
 app.secret_key = 'the random string'
 
+# convert database output into dictionary format 
 def make_dicts(cursor, row):
     return dict((cursor.description[idx][0], value)
                 for idx, value in enumerate(row))
@@ -57,6 +56,7 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+# get number of words at each progress level
 def get_level_counts():
     learned = 0
     mastered = 0
@@ -101,7 +101,7 @@ def get_level_counts():
            }
     return ans
 
- 
+ # render homepage
 @app.route("/")
 def index():
     db = get_db()
@@ -114,11 +114,13 @@ def index():
 def page_not_found(e):
     return render_template("404.html"), 404
 
+# logs users out and returns them to homepage
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for('index'))
 
+# sign in route - checks login details
 @app.route("/sign_in", methods = ["POST", "GET"])
 def sign_in():
     db = get_db()
@@ -142,6 +144,7 @@ def sign_in():
         flash("Incorrect email or password", "danger")
     return render_template("sign_in.html")
 
+# processes user sign ups 
 @app.route("/sign_up", methods = ["POST", "GET"])
 def sign_up():
     db = get_db()
@@ -172,10 +175,11 @@ def sign_up():
             data = (i['word_id'], user_id, 1)
             cur.execute("INSERT INTO users_words_progress (word_id, user_id, progress_level) VALUES (?, ?, ?);", data)
         db.commit()  
-        flash("Sucessfully registered!", "success")  
+        flash('Sucessfully registered! <a href="/sign_in">Login now.</a>', 'success')  
         return redirect(url_for("sign_up")) 
     return render_template("sign_up.html")
 
+# update progress level for each word
 @app.route("/update_progress", methods=['POST'])
 def update_progress():
     data = request.get_json()
@@ -235,6 +239,7 @@ def update_progress():
     db.commit()
     return jsonify({'success': True})
 
+# Takes quiz option choices and generates questions
 @app.route("/start_quiz", methods = ["POST", "GET"])
 @login_required
 def start_quiz():
@@ -313,11 +318,13 @@ def start_quiz():
         return redirect(url_for('quiz'))
     return render_template("start_quiz.html", valid_options=valid_options)
 
+# display page with quiz questions
 @login_required
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
     return render_template("quiz.html")
 
+# marks and displays quiz results page
 @login_required
 @app.route("/submit_quiz", methods=["GET", "POST"])
 def submit_quiz():
@@ -343,11 +350,7 @@ def submit_quiz():
             session['quiz_result_message'] = "Good job! Mao is proud of you 🐱"
     return render_template("submit_quiz.html", score=score, submitted_answers=submitted_answers)
 
-@app.route("/quiz_results")
-@login_required
-def quiz_results():
-    return render_template("quiz_results.html")
-
+# show progress tracking table
 @app.route("/progress")
 @login_required
 def progress():
@@ -379,10 +382,8 @@ def progress():
         progress_message[i['word_id']]=  progress_description[i['progress_level']]
     return render_template("progress.html", mastered=mastered, learning=learning, new=new, total_words=total_words,  progress_message=progress_message, words = words, name = name)
 
+# shows user homepage
 @app.route("/user_home", methods = ["POST", "GET"])
 @login_required
 def user_home():
-    db = get_db()
-    cur = db.cursor()
-    
     return render_template("user_home.html")
