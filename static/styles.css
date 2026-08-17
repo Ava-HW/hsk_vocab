@@ -291,3 +291,11 @@ td, th {
     width: 100% !important;
     padding-top: 3%;
 }
+
+.bottom-corner{
+    max-height: 300px;
+    width: auto;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
