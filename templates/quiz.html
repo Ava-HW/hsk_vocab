@@ -10,7 +10,7 @@
 <div class="card quiz-card">
   <div class="card-body">
     <!-- Show hanzi, pinyin if selected -->
-    <h5 class = "card-title">{{ i['hanzi']}}</h5>
+    <h5 class = "card-title hanzi">{{ i['hanzi']}}</h5>
     {% if session['show_pinyin'] %}
     <h6>{{i['pinyin']}}</h6>
     {% endif %}

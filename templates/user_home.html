@@ -6,19 +6,23 @@
     <h1>Welcome {{ name }} </h1>
 </div>
 
-<div class = "d-flex gap-3 flex-md-row justify-content-center align-items-center container" style="padding-top: 3%;">
-    <a class= "card rounded-4" href="/start_quiz" style="text-decoration: none;">
-        <div class="card-body link-card d-flex flex-column align-items-center justify-content-center">
+<div class="d-flex gap-1 flex-md-row justify-content-center align-items-center container" style="padding-top: 3%;">
+    <div class = "col d-flex justify-content-center">
+        <a class= "card col-8 rounded-4 align-items-center link-card" href="/start_quiz" style="text-decoration: none;">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <img src = "static/images/quiz.png" class = "link-button-icon">
             <h1>Start quiz</h1>
         </div>
     </a>
-    <a class="card rounded-4" href="/progress" style="text-decoration: none;">
-        <div class="card-body link-card d-flex flex-column align-items-center justify-content-center">
+    </div>
+    <div class = "col d-flex justify-content-center">
+        <a class="card col-8 rounded-4 align-items-center link-card" href="/progress" style="text-decoration: none;">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center">
             <img src = "static/images/success.png" class= "link-button-icon">
             <h1>Track progress</h1>
         </div>
     </a>
+    </div>
 </div>
 
 {% endblock %}
