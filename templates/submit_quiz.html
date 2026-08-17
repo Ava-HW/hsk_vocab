@@ -3,14 +3,15 @@
 {% block main %}
 
 <div class = "justify-content-center centered align-items-center" style="margin-bottom: 10%;">
-<h1>Quiz results</h1>
-<h2>Score: {{ score }} / {{ submitted_answers|length}}</h2>
+    <h1>Quiz results</h1>
+    <h2>Score: {{ score }} / {{ submitted_answers|length}}</h2>
+    <p>{{ session['quiz_result_message']}}</p>
 <div>
 {% for i in session['quiz_questions'] %}
 <div class="card quiz-card">
   <div class="card-body">
     <!-- Show hanzi, pinyin if selected -->
-    <h5 class = "card-title">{{ i['hanzi']}}</h5>
+    <h5 class = "card-title hanzi">{{ i['hanzi']}}</h5>
     {% if session['show_pinyin'] %}
     <h6>{{i['pinyin']}}</h6>
     {% endif %}

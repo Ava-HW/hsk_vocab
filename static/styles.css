@@ -135,7 +135,23 @@ h1{
     padding-top: 3%;
 }
 
+.quiz-number{
+    position:absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: #de831c;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
 .quiz-card{
+    position: relative;
     width: 100% !important;
     max-width: 650px !important;
     margin-bottom: 10%;

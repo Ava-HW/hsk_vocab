@@ -332,7 +332,15 @@ def submit_quiz():
             submitted_answers.append(response)
             if response == i['answer']:
                 score += 1
-            db.commit()
+        # choose results message for user based on percentage score
+        percentage = 100* (score / len(session['quiz_questions']))
+        session['quiz_result_message'] = ""
+        if percentage < 70:
+            session['quiz_result_message'] = "Keep practising - you can do it!"
+        elif percentage >= 70 and percentage < 100:
+            session['quiz_result_message'] = "You're close - keep going!"
+        elif percentage == 100:
+            session['quiz_result_message'] = "Good job! Mao is proud of you 🐱"
     return render_template("submit_quiz.html", score=score, submitted_answers=submitted_answers)
 
 @app.route("/quiz_results")

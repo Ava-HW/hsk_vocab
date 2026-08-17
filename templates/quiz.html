@@ -8,6 +8,7 @@
 <form action = "/submit_quiz" method="POST">
 {% for i in session['quiz_questions'] %}
 <div class="card quiz-card">
+  <div class = "quiz-number">{{ loop.index }}</div>
   <div class="card-body">
     <!-- Show hanzi, pinyin if selected -->
     <h5 class = "card-title hanzi">{{ i['hanzi']}}</h5>
