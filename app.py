@@ -26,7 +26,7 @@ app.secret_key = 'the random string'
 def init_db():
     db = sqlite3.connect(DATABASE)
     with app.open_resource('schema.sql', mode = 'r') as f:
-        db.cursor.executescript(f.read())
+        db.cursor().executescript(f.read())
     db.commit()
     db.close()
     print("Database intialized!")
