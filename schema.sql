@@ -1,0 +1,4 @@
+CREATE TABLE sqlite_sequence(name,seq);
+CREATE TABLE words (english TEXT, pinyin TEXT, hanzi TEXT, word_id INTEGER PRIMARY KEY AUTOINCREMENT, hsk_level INTEGER);
+CREATE TABLE users (email TEXT (255) UNIQUE, password TEXT (100), name TEXT (255), user_id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, hsk_level INTEGER (1, 2), level_1_mastered INTEGER DEFAULT (0), level_1_learning INTEGER DEFAULT (0), level_2_mastered INTEGER DEFAULT (0), level_2_learning INTEGER DEFAULT (0));
+CREATE TABLE users_words_progress (user_id INTEGER REFERENCES users (user_id), word_id INTEGER REFERENCES words (word_id), progress_level INTEGER);

@@ -22,6 +22,24 @@ def login_required(f):
 DATABASE = 'hsk.db'
 app.secret_key = 'the random string'
 
+# initialize blank database if no database is present
+def init_db():
+    db = sqlite3.connect(DATABASE)
+    with app.open_resource('schema.sql', mode = 'r') as f:
+        db.cursor.executescript(f.read())
+    db.commit()
+    db.close()
+    print("Database intialized!")
+
+# run init_db from command line
+@app.cli.command('init-db')
+def init_db_command():
+    init_db()
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
 # convert database output into dictionary format 
 def make_dicts(cursor, row):
     return dict((cursor.description[idx][0], value)
