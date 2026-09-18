@@ -1,15 +1,16 @@
-from flask import Flask, render_template, session, jsonify
-from flask import request, redirect, url_for
-from functools import wraps
-from flask import g, redirect
-from flask import flash
 import sqlite3
 import random
+from functools import wraps
+from flask import Flask, render_template, session, jsonify
+from flask import request, redirect, url_for
+from flask import g
+from flask import flash
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
 def login_required(f):
+    """Checks if user is logged in"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         # Check if user ID is in session
@@ -22,13 +23,13 @@ def login_required(f):
 DATABASE = 'hsk.db'
 app.secret_key = 'the random string'
 
-# convert database output into dictionary format 
 def make_dicts(cursor, row):
+    """Convert database output into dictionary format """
     return dict((cursor.description[idx][0], value)
                 for idx, value in enumerate(row))
 
-# code to start database connection
 def get_db():
+    """Code to start database connection"""
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
@@ -52,13 +53,13 @@ description_progress = {
 
 @app.teardown_appcontext
 def close_connection(exception):
+    """Code to close database connection"""
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
 
-# get number of words at each progress level
 def get_level_counts():
-    learned = 0
+    """Helper function to get number of words at each progress level"""
     mastered = 0
     total_words = 0
     db = get_db()
@@ -70,53 +71,51 @@ def get_level_counts():
     # find no. of mastered words
     for i in range(1, session['hsk_level'] + 1):
         query = f"""
-        SELECT level_{i}_mastered 
+        SELECT level_{i}_mastered
         FROM users
         WHERE user_id = ?;
         """
         data = (session['user_id'],)
         cur.execute(query, data)
         amount = cur.fetchone()
-        if amount[f'level_{i}_mastered']: 
+        if amount[f'level_{i}_mastered']:
             mastered += amount[f'level_{i}_mastered']
     # find no. of learning words
     learning = 0
     for i in range(1, session['hsk_level'] + 1):
         query = f"""
-        SELECT level_{i}_learning 
+        SELECT level_{i}_learning
         FROM users
         WHERE user_id = ?;
         """
         data = (session['user_id'],)
         cur.execute(query, data)
         amount = cur.fetchone()
-        if amount[f'level_{i}_learning']: 
+        if amount[f'level_{i}_learning']:
             learning += amount[f'level_{i}_learning']
     # calculate no. of new words
     new = total_words - learning - mastered
-    ans = {"mastered": mastered, 
+    ans = {"mastered": mastered,
            "learning": learning,
            "new": new,
            "total_words" : total_words
            }
     return ans
 
- # render homepage
 @app.route("/")
 def index():
-    db = get_db()
-    cur = db.cursor()
+    """render homepage"""
     session.clear()
     return render_template("index.html")
 
-# handle 404 errors
 @app.errorhandler(404)
 def page_not_found(e):
+    """Handle 404 errors"""
     return render_template("404.html"), 404
 
-# logs users out and returns them to homepage
 @app.route("/logout")
 def logout():
+    """logs users out and returns them to homepage"""
     session.clear()
     return redirect(url_for('index'))
 
@@ -144,9 +143,9 @@ def sign_in():
         flash("Incorrect email or password", "danger")
     return render_template("sign_in.html")
 
-# processes user sign ups 
 @app.route("/sign_up", methods = ["POST", "GET"])
 def sign_up():
+    """processes user sign ups"""
     db = get_db()
     cur = db.cursor()
     if request.method == "POST":
@@ -154,6 +153,7 @@ def sign_up():
         password = request.form.get('password')
         hashed_password = generate_password_hash(password)
         name = request.form.get('name')
+        # check if all fields have been filled in
         if not email or not password or not name:
             flash("Please fill in all fields!", "danger")
             return redirect(url_for("sign_up"))
@@ -161,27 +161,27 @@ def sign_up():
         query = "INSERT INTO users (email, password, name, hsk_level) VALUES (?, ?, ?, ?);"
         data = (email, hashed_password, name, hsk_level)
         try:
-            cur.execute(query, data)   
-        except:
+            cur.execute(query, data)
+        except sqlite3.IntegrityError:
             flash("Email already registered!", "danger")
             return redirect(url_for("sign_up"))
         # set all words to new initially
         cur.execute("SELECT * FROM words;")
         word_list = cur.fetchall()
         cur.execute("SELECT user_id FROM users WHERE email = ?;", (email,))
-        id = cur.fetchone()
-        user_id = id['user_id']
+        res = cur.fetchone()
+        user_id = res['user_id']
         for i in word_list:
             data = (i['word_id'], user_id, 1)
             cur.execute("INSERT INTO users_words_progress (word_id, user_id, progress_level) VALUES (?, ?, ?);", data)
-        db.commit()  
-        flash('Sucessfully registered! <a href="/sign_in">Login now.</a>', 'success')  
-        return redirect(url_for("sign_up")) 
+        db.commit()
+        flash('Sucessfully registered! <a href="/sign_in">Login now.</a>', 'success')
+        return redirect(url_for("sign_up"))
     return render_template("sign_up.html")
 
-# update progress level for each word
 @app.route("/update_progress", methods=['POST'])
 def update_progress():
+    """Helper function to pdate progress level for each word"""
     data = request.get_json()
     word_id = data.get('word_id')
     status = data.get('status')
@@ -255,13 +255,12 @@ def start_quiz():
     if request.method == "POST":
         num_questions = int(request.form.get('num_questions'))
         progress_level = request.form.get('progress_level')
-        show_pinyin = (request.form.get('show_pinyin') == "true")
-        if(show_pinyin):
+        show_pinyin = request.form.get('show_pinyin') == "true"
+        if show_pinyin:
             session['show_pinyin'] = True
         else:
             session['show_pinyin'] = False
         # get suitable list of words
-        question_list = []
         query = ""
         if progress_level != "all_progress_levels":
             progress_num = description_progress[progress_level]
@@ -326,8 +325,6 @@ def quiz():
 @login_required
 @app.route("/submit_quiz", methods=["GET", "POST"])
 def submit_quiz():
-    db=get_db()
-    cur=db.cursor()
     submitted_answers = []
     score = 0
     if request.method == "POST":
@@ -348,10 +345,11 @@ def submit_quiz():
             session['quiz_result_message'] = "Good job! Mao is proud of you 🐱"
     return render_template("submit_quiz.html", score=score, submitted_answers=submitted_answers)
 
-# show progress tracking table
+
 @app.route("/progress")
 @login_required
 def progress():
+    """show progress tracking table"""
     db = get_db()
     cur = db.cursor()
     # get no. of words at each level
