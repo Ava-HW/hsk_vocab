@@ -119,9 +119,9 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-# sign in route - checks login details
 @app.route("/sign_in", methods = ["POST", "GET"])
 def sign_in():
+    """sign in route - checks login details"""
     db = get_db()
     cur = db.cursor()
     if request.method == "POST":
@@ -240,8 +240,8 @@ def update_progress():
     return jsonify({'success': True})
 
 # Takes quiz option choices and generates questions
-@app.route("/start_quiz", methods = ["POST", "GET"])
 @login_required
+@app.route("/start_quiz", methods = ["POST", "GET"])
 def start_quiz():
     db = get_db()
     cur = db.cursor()
@@ -346,8 +346,8 @@ def submit_quiz():
     return render_template("submit_quiz.html", score=score, submitted_answers=submitted_answers)
 
 
-@app.route("/progress")
 @login_required
+@app.route("/progress")
 def progress():
     """show progress tracking table"""
     db = get_db()
@@ -379,8 +379,8 @@ def progress():
     return render_template("progress.html", mastered=mastered, learning=learning, new=new, total_words=total_words,  progress_message=progress_message, words = words, name = name)
 
 # shows user homepage
-@app.route("/user_home", methods = ["POST", "GET"])
 @login_required
+@app.route("/user_home", methods = ["POST", "GET"])
 def user_home():
     return render_template("user_home.html")
 
