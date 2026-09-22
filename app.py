@@ -179,7 +179,9 @@ def sign_up():
         return redirect(url_for("sign_up"))
     return render_template("sign_up.html")
 
+
 @app.route("/update_progress", methods=['POST'])
+@login_required
 def update_progress():
     """Helper function to pdate progress level for each word"""
     data = request.get_json()
@@ -240,8 +242,8 @@ def update_progress():
     return jsonify({'success': True})
 
 # Takes quiz option choices and generates questions
-@login_required
 @app.route("/start_quiz", methods = ["POST", "GET"])
+@login_required
 def start_quiz():
     db = get_db()
     cur = db.cursor()
@@ -316,14 +318,14 @@ def start_quiz():
     return render_template("start_quiz.html", valid_options=valid_options)
 
 # display page with quiz questions
-@login_required
 @app.route("/quiz", methods=["GET", "POST"])
+@login_required
 def quiz():
     return render_template("quiz.html")
 
 # marks and displays quiz results page
-@login_required
 @app.route("/submit_quiz", methods=["GET", "POST"])
+@login_required
 def submit_quiz():
     submitted_answers = []
     score = 0
@@ -346,8 +348,8 @@ def submit_quiz():
     return render_template("submit_quiz.html", score=score, submitted_answers=submitted_answers)
 
 
-@login_required
 @app.route("/progress")
+@login_required
 def progress():
     """show progress tracking table"""
     db = get_db()
@@ -379,8 +381,8 @@ def progress():
     return render_template("progress.html", mastered=mastered, learning=learning, new=new, total_words=total_words,  progress_message=progress_message, words = words, name = name)
 
 # shows user homepage
-@login_required
 @app.route("/user_home", methods = ["POST", "GET"])
+@login_required
 def user_home():
     return render_template("user_home.html")
 
